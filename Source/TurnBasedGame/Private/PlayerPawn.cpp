@@ -38,8 +38,6 @@ void APlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
 	}
-
-	// Set up action bindings
 	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent)) 
 	{
 		// TODO 마우스 클릭에 해당하는 기능 바인드

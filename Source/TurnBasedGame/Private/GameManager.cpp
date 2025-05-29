@@ -16,16 +16,31 @@ void AGameManager::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (!SingletonInstance)
-	{
-		SingletonInstance = this;
-
-		Debug::Print("GameManager Create");
-	}
-
-	Debug::Print("GameManager Start");
+    if (!IsValid(SingletonInstance))
+    {
+        SingletonInstance = this;
+    }
 }
 AGameManager* AGameManager::Get(UWorld* World)
 {
-	return SingletonInstance;
+    if (SingletonInstance == nullptr)
+    {
+        TArray<AActor*> FoundActors;
+        UGameplayStatics::GetAllActorsOfClass(World, AGameManager::StaticClass(), FoundActors);
+
+        if (FoundActors.Num() > 0)
+        {
+            SingletonInstance = Cast<AGameManager>(FoundActors[0]);
+        }
+        else
+        {
+            SingletonInstance = nullptr;
+        }
+    }
+    return SingletonInstance;
+}
+
+void AGameManager::UnitAdd(EUnitTeamType TeamType, ABaseUnit* AddedUnit)
+{
+	UnitSets.AddUnit(TeamType, AddedUnit);
 }

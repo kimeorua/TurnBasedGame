@@ -4,8 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Types/TurnBasedGameEnums.h"
+#include "Types/TurnBasedGameStructs.h"
 #include "GameManager.generated.h"
 
+class ABaseUnit;
+ 
 UCLASS()
 class TURNBASEDGAME_API AGameManager : public AActor
 {
@@ -17,6 +21,11 @@ public:
 
 	static AGameManager* Get(UWorld* World);
 
+	void UnitAdd(EUnitTeamType TeamType, ABaseUnit* AddedUnit);
+
 private:
 	static AGameManager* SingletonInstance;
+
+	UPROPERTY(VisibleAnywhere, Category = "Units")
+	FUnitSets UnitSets;
 };
