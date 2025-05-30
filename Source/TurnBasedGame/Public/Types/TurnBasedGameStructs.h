@@ -18,4 +18,5 @@ struct FUnitSets
 	TArray<ABaseUnit*>PlayerUnits;
 
 	void AddUnit(EUnitTeamType TeamType, ABaseUnit* AddedUnit);
+	void Init();
 };

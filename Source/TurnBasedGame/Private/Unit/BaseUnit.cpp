@@ -4,7 +4,7 @@
 #include "Unit/BaseUnit.h"
 #include "Unit/UnitAIController.h"
 #include "GameFramework/CharacterMovementComponent.h"
-#include "GameManager.h"
+#include "GameManager/GameManagerSubsystem.h"
 
 // Sets default values
 ABaseUnit::ABaseUnit()
@@ -32,7 +32,12 @@ void ABaseUnit::BeginPlay()
 	default:
 		break;
 	}
-	AGameManager::Get(GetWorld())->UnitAdd(TeamType, this);
+	
+	UGameManagerSubsystem* GM = GetGameInstance()->GetSubsystem<UGameManagerSubsystem>();
+	if (GM)
+	{
+		GM->AddUnit(TeamType, this);
+	}
 }
 
 void ABaseUnit::PossessedBy(AController* NewController)

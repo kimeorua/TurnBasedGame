@@ -2,7 +2,6 @@
 
 
 #include "TurnBasedGameMode.h"
-#include "GameManager.h"
 
 
 void ATurnBasedGameMode::StartPlay()

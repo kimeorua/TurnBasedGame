@@ -18,7 +18,6 @@ class TURNBASEDGAME_API APlayerPawn : public APawn
 public:
 	// Sets default values for this pawn's properties
 	APlayerPawn();
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 protected:
 	// Called when the game starts or when spawned

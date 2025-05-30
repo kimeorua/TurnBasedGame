@@ -7,19 +7,23 @@ void FUnitSets::AddUnit(EUnitTeamType TeamType, ABaseUnit* AddedUnit)
 {
 	if (!AddedUnit) { return; }
 
-	Debug::Print("HI");
-
 	switch (TeamType)
 	{
 	case EUnitTeamType::None:
 		break;
 	case EUnitTeamType::Player:
-		PlayerUnits.Add(AddedUnit);
+		PlayerUnits.AddUnique(AddedUnit);
 		break;
 	case EUnitTeamType::Enemy:
-		EnemyUnits.Add(AddedUnit);
+		EnemyUnits.AddUnique(AddedUnit);
 		break;
 	default:
 		break;
 	}
+}
+
+void FUnitSets::Init()
+{
+	PlayerUnits.Empty();
+	EnemyUnits.Empty();
 }
