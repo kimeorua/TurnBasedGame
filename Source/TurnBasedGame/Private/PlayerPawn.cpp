@@ -6,6 +6,7 @@
 #include "Camera/CameraComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "TurnBasedGameFunctionLibrary.h"
 
 APlayerPawn::APlayerPawn()
 {
@@ -22,8 +23,11 @@ void APlayerPawn::BeginPlay()
 {
 	Super::BeginPlay();
 
+	UTurnBasedGameFunctionLibrary::ToggleInputMode(GetWorld(), ETurnBasedGAmeInputMode::GameOnly);
+
 	if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
 	{
 		PlayerController->SetShowMouseCursor(true);
+		PlayerController->bEnableMouseOverEvents = true;
 	}
 }

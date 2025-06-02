@@ -15,6 +15,11 @@ class TURNBASEDGAME_API ABaseUnit : public ACharacter
 public:
 	ABaseUnit();
 
+	UFUNCTION()
+	void UnitMouseOver(UPrimitiveComponent* TouchedComp);
+	UFUNCTION()
+	void UnitMouseEnd(UPrimitiveComponent* TouchedComp);
+
 protected:
 	virtual void BeginPlay() override;
 	//~ Begin APawn Interface.

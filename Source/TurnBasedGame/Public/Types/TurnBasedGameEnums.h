@@ -9,3 +9,10 @@ enum class EUnitTeamType : uint8
 	Player,
 	Enemy
 };
+
+UENUM(BlueprintType)
+enum class ETurnBasedGAmeInputMode : uint8
+{
+	GameOnly,
+	UIOnly
+};
