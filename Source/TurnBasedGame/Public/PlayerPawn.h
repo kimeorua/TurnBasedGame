@@ -4,20 +4,24 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "Interface/UIInterface.h"
 #include "PlayerPawn.generated.h"
 
 class USpringArmComponent;
 class UCameraComponent;
 class UInputMappingContext;
+class UUIComponent;
 
 UCLASS()
-class TURNBASEDGAME_API APlayerPawn : public APawn
+class TURNBASEDGAME_API APlayerPawn : public APawn, public IUIInterface
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this pawn's properties
 	APlayerPawn();
+
+	virtual UUIComponent* GetUIComponent() const;
 
 protected:
 	// Called when the game starts or when spawned
@@ -30,6 +34,9 @@ private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* FollowCamera;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI", meta = (AllowPrivateAccess = "true"))
+	UUIComponent* UIComponent;
 #pragma endregion
 
 #pragma region Values

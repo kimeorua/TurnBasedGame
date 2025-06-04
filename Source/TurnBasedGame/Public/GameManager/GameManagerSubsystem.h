@@ -9,6 +9,7 @@
 #include "GameManagerSubsystem.generated.h"
 
 class ABaseUnit;
+class APlayerPawn;
 
 UCLASS()
 class TURNBASEDGAME_API UGameManagerSubsystem : public UGameInstanceSubsystem
@@ -21,7 +22,11 @@ public:
 
 	void AddUnit(EUnitTeamType TeamType, ABaseUnit* Unit );
 
+	void ShowUnitUI();
+
 private:
 	UPROPERTY(VisibleAnywhere, Category = "Unit")
 	FUnitSets UnitSet;
+
+	APlayerPawn* PlayerPawn;
 };

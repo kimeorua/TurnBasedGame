@@ -17,6 +17,6 @@ class TURNBASEDGAME_API UTurnBasedGameFunctionLibrary : public UBlueprintFunctio
 	
 public:
 	UFUNCTION(BlueprintCallable, Category = "TurnBasedGame | Function Library", meta = (WorldContext = "WorldContextObject"))
-	static void ToggleInputMode(const UObject* WorldContextObject, ETurnBasedGAmeInputMode InInputMode);
+	static void ToggleInputMode(const UObject* WorldContextObject, ETurnBasedGameInputMode InInputMode);
 
 };

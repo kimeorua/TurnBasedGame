@@ -11,7 +11,7 @@ enum class EUnitTeamType : uint8
 };
 
 UENUM(BlueprintType)
-enum class ETurnBasedGAmeInputMode : uint8
+enum class ETurnBasedGameInputMode : uint8
 {
 	GameOnly,
 	UIOnly

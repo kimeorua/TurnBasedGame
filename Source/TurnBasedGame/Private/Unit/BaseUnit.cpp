@@ -26,6 +26,22 @@ void ABaseUnit::UnitMouseEnd(UPrimitiveComponent* TouchedComp)
 	GetMesh()->SetCustomDepthStencilValue(0.0f);
 }
 
+void ABaseUnit::UnitClick(AActor* TouchedActor, FKey ButtonPressed)
+{
+	if (TeamType == EUnitTeamType::Player)
+	{
+		if (ButtonPressed == EKeys::LeftMouseButton)
+		{
+			UGameManagerSubsystem* GM = GetGameInstance()->GetSubsystem<UGameManagerSubsystem>();
+			if (GM)
+			{
+				GM->ShowUnitUI();
+			}
+		}
+	}
+	else { return; }
+}
+
 // Called when the game starts or when spawned
 void ABaseUnit::BeginPlay()
 {
@@ -52,7 +68,7 @@ void ABaseUnit::BeginPlay()
 	{
 		GM->AddUnit(TeamType, this);
 	}
-
+	OnClicked.AddDynamic(this, &ABaseUnit::UnitClick);
 	GetCapsuleComponent()->OnBeginCursorOver.AddDynamic(this, &ABaseUnit::UnitMouseOver);
 	GetCapsuleComponent()->OnEndCursorOver.AddDynamic(this, &ABaseUnit::UnitMouseEnd);
 }

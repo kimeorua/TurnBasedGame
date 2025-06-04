@@ -20,6 +20,9 @@ public:
 	UFUNCTION()
 	void UnitMouseEnd(UPrimitiveComponent* TouchedComp);
 
+	UFUNCTION()
+	void UnitClick(AActor* TouchedActor, FKey ButtonPressed);
+
 protected:
 	virtual void BeginPlay() override;
 	//~ Begin APawn Interface.

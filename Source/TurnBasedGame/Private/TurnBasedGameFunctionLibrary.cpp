@@ -3,7 +3,7 @@
 
 #include "TurnBasedGameFunctionLibrary.h"
 
-void UTurnBasedGameFunctionLibrary::ToggleInputMode(const UObject* WorldContextObject, ETurnBasedGAmeInputMode InInputMode)
+void UTurnBasedGameFunctionLibrary::ToggleInputMode(const UObject* WorldContextObject, ETurnBasedGameInputMode InInputMode)
 {
 	APlayerController* PlayerController = nullptr;
 	if (GEngine)
@@ -18,14 +18,16 @@ void UTurnBasedGameFunctionLibrary::ToggleInputMode(const UObject* WorldContextO
 	if (!PlayerController) { return; }
 
 	FInputModeGameOnly GameOnlyMode;
+	GameOnlyMode.SetConsumeCaptureMouseDown(false);
+
 	FInputModeUIOnly UIOnly;
 
 	switch (InInputMode)
 	{
-	case ETurnBasedGAmeInputMode::GameOnly:
+	case ETurnBasedGameInputMode::GameOnly:
 		PlayerController->SetInputMode(GameOnlyMode);
 		break;
-	case ETurnBasedGAmeInputMode::UIOnly:
+	case ETurnBasedGameInputMode::UIOnly:
 		PlayerController->SetInputMode(UIOnly);
 		break;
 	default:

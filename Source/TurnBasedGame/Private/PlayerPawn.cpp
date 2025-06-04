@@ -4,9 +4,8 @@
 #include "PlayerPawn.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
-#include "EnhancedInputComponent.h"
-#include "EnhancedInputSubsystems.h"
 #include "TurnBasedGameFunctionLibrary.h"
+#include "Component/UIComponent.h"
 
 APlayerPawn::APlayerPawn()
 {
@@ -17,17 +16,25 @@ APlayerPawn::APlayerPawn()
 
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom);
+
+	UIComponent = CreateDefaultSubobject<UUIComponent>(TEXT("UIComponent"));
+}
+
+UUIComponent* APlayerPawn::GetUIComponent() const
+{
+	return UIComponent;
 }
 
 void APlayerPawn::BeginPlay()
 {
 	Super::BeginPlay();
 
-	UTurnBasedGameFunctionLibrary::ToggleInputMode(GetWorld(), ETurnBasedGAmeInputMode::GameOnly);
+	UTurnBasedGameFunctionLibrary::ToggleInputMode(GetWorld(), ETurnBasedGameInputMode::GameOnly);
 
 	if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
 	{
 		PlayerController->SetShowMouseCursor(true);
 		PlayerController->bEnableMouseOverEvents = true;
+		PlayerController->bEnableClickEvents = true;
 	}
 }
