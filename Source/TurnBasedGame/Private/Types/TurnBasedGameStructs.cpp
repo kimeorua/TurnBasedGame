@@ -1,8 +1,6 @@
 #include "Types/TurnBasedGameStructs.h"
 #include "Unit/BaseUnit.h"
 
-#include "DebugHelper.h"
-
 void FUnitSets::AddUnit(EUnitTeamType TeamType, ABaseUnit* AddedUnit)
 {
 	if (!AddedUnit) { return; }
@@ -27,3 +25,8 @@ void FUnitSets::Init()
 	PlayerUnits.Empty();
 	EnemyUnits.Empty();
 }
+
+const float FUnitStatus::MaxRiseRate = 2.0f;
+const float FUnitStatus::MaxAP = 2.0f;
+const float FUnitStatus::LevelUpStats = 100.0f;
+const int FUnitStatus::MaxLevel = 5;

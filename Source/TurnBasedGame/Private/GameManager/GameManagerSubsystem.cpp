@@ -24,9 +24,9 @@ void UGameManagerSubsystem::AddUnit(EUnitTeamType TeamType, ABaseUnit* Unit)
 {
 	UnitSet.AddUnit(TeamType, Unit);
 
-	Debug::Print("Add Unit : " + Unit->GetActorNameOrLabel());
-	Debug::Print("Player Count : ", UnitSet.PlayerUnits.Num());
-	Debug::Print("Enemy Count : ", UnitSet.EnemyUnits.Num());
+	//Debug::Print("Add Unit : " + Unit->GetActorNameOrLabel());
+	//Debug::Print("Player Count : ", UnitSet.PlayerUnits.Num());
+	//Debug::Print("Enemy Count : ", UnitSet.EnemyUnits.Num());
 }
 
 void UGameManagerSubsystem::ShowUnitUI()

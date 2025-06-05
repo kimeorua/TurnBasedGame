@@ -5,10 +5,16 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Types/TurnBasedGameEnums.h"
+#include "Interface/UnitStatusInterface.h"
+#include "Interface/UnitUIInterface.h"
 #include "BaseUnit.generated.h"
 
+class UUnitStatusComponent;
+class UUnitUIComponent;
+class UWidgetComponent;
+
 UCLASS()
-class TURNBASEDGAME_API ABaseUnit : public ACharacter
+class TURNBASEDGAME_API ABaseUnit : public ACharacter, public IUnitStatusInterface, public IUnitUIInterface
 {
 	GENERATED_BODY()
 
@@ -22,6 +28,20 @@ public:
 
 	UFUNCTION()
 	void UnitClick(AActor* TouchedActor, FKey ButtonPressed);
+
+	virtual UUnitStatusComponent* GetUnitStatusComponent() const;
+
+	virtual UUnitUIComponent* GetUnitUIComponent() const;
+
+private:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UnitStats", meta = (AllowPrivateAccess = "true"))
+	UUnitStatusComponent* UnitStatusComponent;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UnitStats", meta = (AllowPrivateAccess = "true"))
+	UUnitUIComponent* UnitUIComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI", meta = (AllowPrivateAccess = "true"))
+	UWidgetComponent* UnitStatsBar;
 
 protected:
 	virtual void BeginPlay() override;

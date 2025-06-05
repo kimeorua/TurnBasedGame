@@ -3,6 +3,7 @@
 
 #include "Widget/TurnBasedGameUserWidget.h"
 #include "Interface/UIInterface.h"
+#include "Interface/UnitUIInterface.h"
 
 void UTurnBasedGameUserWidget::NativeOnInitialized()
 {
@@ -14,5 +15,15 @@ void UTurnBasedGameUserWidget::NativeOnInitialized()
 		{
 			BP_OnUIComponentInitalized(UIComponent);
 		}
+	}
+}
+
+void UTurnBasedGameUserWidget::InitAndCreateUnitWidget(AActor* OwningActor)
+{
+	if (IUnitUIInterface* UnitUIInterface = Cast<IUnitUIInterface>(OwningActor))
+	{
+		UUnitUIComponent* UnitUIComponent = UnitUIInterface->GetUnitUIComponent();
+
+		BP_OnUnitUIComponentInitalized(UnitUIComponent);
 	}
 }

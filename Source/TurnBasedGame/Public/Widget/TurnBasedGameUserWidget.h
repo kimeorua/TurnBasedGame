@@ -7,6 +7,7 @@
 #include "TurnBasedGameUserWidget.generated.h"
 
 class UUIComponent;
+class UUnitUIComponent;
 
 UCLASS()
 class TURNBASEDGAME_API UTurnBasedGameUserWidget : public UUserWidget
@@ -18,4 +19,11 @@ protected:
 
 	UFUNCTION(BlueprintImplementableEvent, meta = (DisplayName = "On UIComponent Initalized"))
 	void BP_OnUIComponentInitalized(UUIComponent* UIConponent);
+
+	UFUNCTION(BlueprintImplementableEvent, meta = (DisplayName = "On Unit UIComponent Initalized"))
+	void BP_OnUnitUIComponentInitalized(UUnitUIComponent* UnitUIComponent);
+
+public:
+	UFUNCTION(BlueprintCallable)
+	void InitAndCreateUnitWidget(AActor* OwningActor);
 };

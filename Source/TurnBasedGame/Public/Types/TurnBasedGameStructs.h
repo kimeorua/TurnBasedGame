@@ -2,6 +2,7 @@
 
 #pragma once
 #include "Types/TurnBasedGameEnums.h"
+#include "Types/TurnBasedGameEnums.h"
 #include "TurnBasedGameStructs.generated.h"
 
 class ABaseUnit;
@@ -19,4 +20,48 @@ struct FUnitSets
 
 	void AddUnit(EUnitTeamType TeamType, ABaseUnit* AddedUnit);
 	void Init();
+};
+
+USTRUCT(BlueprintType)
+struct FUnitStatus
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditDefaultsOnly, Category = "UnitStatus|Type")
+	EUnitType Type = EUnitType::Human;
+
+	UPROPERTY(EditDefaultsOnly, Category = "UnitStatus|Stats")
+	float HP = 1000.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "UnitStatus|Stats")
+	float MaxHP = 1000.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "UnitStatus|Stats")
+	float AP = 2.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "UnitStatus|Stats")
+	float Resilience = 0.8f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "UnitStatus|Stats")
+	float Speed = 1.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "UnitStatus|Stats")
+	float ATK = 100.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "UnitStatus|Stats")
+	float DEF = 50.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "UnitStatus|Stats")
+	float ATK_RiseRate = 1.5f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "UnitStatus|Stats", meta = (UIMin = "1", UIMax = "5"))
+	int Level = 1;
+
+	static const int MaxLevel;
+
+	static const float MaxRiseRate;
+
+	static const float MaxAP;
+
+	static const float LevelUpStats;
 };

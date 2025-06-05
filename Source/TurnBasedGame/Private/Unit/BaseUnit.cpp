@@ -5,6 +5,10 @@
 #include "Unit/UnitAIController.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameManager/GameManagerSubsystem.h"
+#include "Components/WidgetComponent.h"
+#include "Component/UnitUIComponent.h"
+#include "Component/UnitStatusComponent.h"
+#include "Widget/TurnBasedGameUserWidget.h"
 
 #include "DebugHelper.h"
 
@@ -12,6 +16,12 @@
 ABaseUnit::ABaseUnit()
 {
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
+
+	UnitStatusComponent = CreateDefaultSubobject<UUnitStatusComponent>(TEXT("UnitStatusComponent"));
+	UnitUIComponent = CreateDefaultSubobject<UUnitUIComponent>(TEXT("UnitUIComponent"));
+
+	UnitStatsBar = CreateDefaultSubobject<UWidgetComponent>(TEXT("UnitStatsBar"));
+	UnitStatsBar->SetupAttachment(GetMesh());
 }
 
 void ABaseUnit::UnitMouseOver(UPrimitiveComponent* TouchedComp)
@@ -40,6 +50,16 @@ void ABaseUnit::UnitClick(AActor* TouchedActor, FKey ButtonPressed)
 		}
 	}
 	else { return; }
+}
+
+UUnitStatusComponent* ABaseUnit::GetUnitStatusComponent() const
+{
+	return UnitStatusComponent;
+}
+
+UUnitUIComponent* ABaseUnit::GetUnitUIComponent() const
+{
+	return UnitUIComponent;
 }
 
 // Called when the game starts or when spawned
@@ -71,6 +91,14 @@ void ABaseUnit::BeginPlay()
 	OnClicked.AddDynamic(this, &ABaseUnit::UnitClick);
 	GetCapsuleComponent()->OnBeginCursorOver.AddDynamic(this, &ABaseUnit::UnitMouseOver);
 	GetCapsuleComponent()->OnEndCursorOver.AddDynamic(this, &ABaseUnit::UnitMouseEnd);
+
+	if (UTurnBasedGameUserWidget* StatusWidget = Cast<UTurnBasedGameUserWidget>(UnitStatsBar->GetUserWidgetObject()))
+	{
+		StatusWidget->InitAndCreateUnitWidget(this);
+
+		UnitUIComponent->OnChangeHP.Broadcast(UnitStatusComponent->GetUnitStatus().MaxHP, UnitStatusComponent->GetUnitStatus().HP, UnitStatusComponent->GetUnitStatus().HP / UnitStatusComponent->GetUnitStatus().MaxHP);
+		UnitUIComponent->OnChangeAP.Broadcast(UnitStatusComponent->GetUnitStatus().MaxAP, UnitStatusComponent->GetUnitStatus().AP, UnitStatusComponent->GetUnitStatus().AP / UnitStatusComponent->GetUnitStatus().MaxAP);
+	}
 }
 
 void ABaseUnit::PossessedBy(AController* NewController)
