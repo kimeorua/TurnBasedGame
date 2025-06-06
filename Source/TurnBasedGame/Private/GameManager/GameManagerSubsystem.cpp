@@ -29,7 +29,7 @@ void UGameManagerSubsystem::AddUnit(EUnitTeamType TeamType, ABaseUnit* Unit)
 	//Debug::Print("Enemy Count : ", UnitSet.EnemyUnits.Num());
 }
 
-void UGameManagerSubsystem::ShowUnitUI()
+void UGameManagerSubsystem::ShowUnitUI(TArray<FUnitSkillSet> SkillSets)
 {
 	if (!PlayerPawn)
 	{
@@ -39,4 +39,5 @@ void UGameManagerSubsystem::ShowUnitUI()
 
 	UTurnBasedGameFunctionLibrary::ToggleInputMode(GetWorld(), ETurnBasedGameInputMode::UIOnly);
 	PlayerPawn->GetUIComponent()->OnShowSkillUI.Broadcast();
+	PlayerPawn->GetUIComponent()->OnSkillIconSetting.Broadcast(SkillSets[0].SkillCion, SkillSets[1].SkillCion, SkillSets[2].SkillCion);
 }

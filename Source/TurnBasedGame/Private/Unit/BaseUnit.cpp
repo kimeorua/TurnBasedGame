@@ -9,6 +9,7 @@
 #include "Component/UnitUIComponent.h"
 #include "Component/UnitStatusComponent.h"
 #include "Widget/TurnBasedGameUserWidget.h"
+#include "Component/CombetComponent.h"
 
 #include "DebugHelper.h"
 
@@ -22,6 +23,8 @@ ABaseUnit::ABaseUnit()
 
 	UnitStatsBar = CreateDefaultSubobject<UWidgetComponent>(TEXT("UnitStatsBar"));
 	UnitStatsBar->SetupAttachment(GetMesh());
+
+	CombetComponent = CreateDefaultSubobject<UCombetComponent>(TEXT("CombetComponent"));
 }
 
 void ABaseUnit::UnitMouseOver(UPrimitiveComponent* TouchedComp)
@@ -45,7 +48,7 @@ void ABaseUnit::UnitClick(AActor* TouchedActor, FKey ButtonPressed)
 			UGameManagerSubsystem* GM = GetGameInstance()->GetSubsystem<UGameManagerSubsystem>();
 			if (GM)
 			{
-				GM->ShowUnitUI();
+				GM->ShowUnitUI(CombetComponent->GetSkillI());
 			}
 		}
 	}
@@ -62,7 +65,11 @@ UUnitUIComponent* ABaseUnit::GetUnitUIComponent() const
 	return UnitUIComponent;
 }
 
-// Called when the game starts or when spawned
+UCombetComponent* ABaseUnit::GetCombetComponent() const
+{
+	return CombetComponent;
+}
+
 void ABaseUnit::BeginPlay()
 {
 	Super::BeginPlay();

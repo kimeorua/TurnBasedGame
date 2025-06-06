@@ -65,3 +65,15 @@ struct FUnitStatus
 
 	static const float LevelUpStats;
 };
+
+USTRUCT(BlueprintType)
+struct FUnitSkillSet
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "UnitSkill")
+	UTexture2D* SkillCion;
+
+	UPROPERTY(EditDefaultsOnly, Category = "UnitSkill")
+	UAnimMontage* SkillMontage;
+};

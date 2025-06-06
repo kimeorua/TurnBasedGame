@@ -22,7 +22,7 @@ public:
 
 	void AddUnit(EUnitTeamType TeamType, ABaseUnit* Unit );
 
-	void ShowUnitUI();
+	void ShowUnitUI(TArray<FUnitSkillSet> SkillSets);
 
 private:
 	UPROPERTY(VisibleAnywhere, Category = "Unit")
