@@ -24,3 +24,13 @@ enum class ETurnBasedGameInputMode : uint8
 	GameOnly,
 	UIOnly
 };
+
+UENUM(BlueprintType)
+enum class ETurnBasedGameTurnStatus : uint8
+{
+	TurnBegin,
+	PlayerTurn,
+	EnemyTurn,
+	BattleTurn,
+	TurnEnd
+};

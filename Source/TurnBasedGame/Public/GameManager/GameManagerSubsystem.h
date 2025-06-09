@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -24,9 +22,20 @@ public:
 
 	void ShowUnitUI(TArray<FUnitSkillSet> SkillSets);
 
+	void OnPostWorldInit(UWorld* World, const UWorld::InitializationValues IVS);
+
+	UFUNCTION(BlueprintCallable)
+	void SetCurrentTurn(ETurnBasedGameTurnStatus NewCurrentTurn);
+
+	void ActivateTurn();
+
 private:
 	UPROPERTY(VisibleAnywhere, Category = "Unit")
 	FUnitSets UnitSet;
 
+	UPROPERTY()
 	APlayerPawn* PlayerPawn;
+
+	UPROPERTY()
+	ETurnBasedGameTurnStatus CurrentTurn;
 };
