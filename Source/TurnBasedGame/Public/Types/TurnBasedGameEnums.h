@@ -13,9 +13,9 @@ enum class EUnitTeamType : uint8
 UENUM(BlueprintType)
 enum class EUnitType : uint8
 {
-	Human,
-	Mechanic,
-	Wild
+	Tanker UMETA(DisplayName = "Tanker"),
+	Dealer UMETA(DisplayName = "Dealer"),
+	Supporter UMETA(DisplayName = "Supporter")
 };
 
 UENUM(BlueprintType)

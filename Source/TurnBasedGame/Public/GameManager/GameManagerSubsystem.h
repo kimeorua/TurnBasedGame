@@ -9,7 +9,7 @@
 class ABaseUnit;
 class APlayerPawn;
 
-UCLASS()
+UCLASS(Blueprintable)
 class TURNBASEDGAME_API UGameManagerSubsystem : public UGameInstanceSubsystem
 {
 	GENERATED_BODY()
@@ -29,6 +29,8 @@ public:
 
 	void ActivateTurn();
 
+	virtual bool ShouldCreateSubsystem(UObject* Outer) const override { return GetClass() != StaticClass(); }
+
 private:
 	UPROPERTY(VisibleAnywhere, Category = "Unit")
 	FUnitSets UnitSet;
@@ -38,4 +40,7 @@ private:
 
 	UPROPERTY()
 	ETurnBasedGameTurnStatus CurrentTurn;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Unit Icons", meta = (AllowPrivateAccess = "true"))
+	TArray<FUnitSeletUISet> UnitSeletUISets;
 };

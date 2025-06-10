@@ -2,7 +2,6 @@
 
 #pragma once
 #include "Types/TurnBasedGameEnums.h"
-#include "Types/TurnBasedGameEnums.h"
 #include "TurnBasedGameStructs.generated.h"
 
 class ABaseUnit;
@@ -28,7 +27,7 @@ struct FUnitStatus
 	GENERATED_BODY()
 
 	UPROPERTY(EditDefaultsOnly, Category = "UnitStatus|Type")
-	EUnitType Type = EUnitType::Human;
+	EUnitType Type = EUnitType::Tanker;
 
 	UPROPERTY(EditDefaultsOnly, Category = "UnitStatus|Stats")
 	float HP = 1000.0f;
@@ -76,4 +75,16 @@ struct FUnitSkillSet
 
 	UPROPERTY(EditDefaultsOnly, Category = "UnitSkill")
 	UAnimMontage* SkillMontage;
+};
+
+USTRUCT(BlueprintType)
+struct FUnitSeletUISet
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "UnitSeletUI")
+	UTexture2D* UnitIcon;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly,  Category = "UnitSeletUI")
+	EUnitType Type;
 };
