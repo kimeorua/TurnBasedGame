@@ -87,4 +87,12 @@ struct FUnitSeletUISet
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly,  Category = "UnitSeletUI")
 	EUnitType Type;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "UnitSeletUI")
+	TSubclassOf<ABaseUnit>Unit;
+
+	bool operator==(const FUnitSeletUISet& Other) const
+	{
+		return UnitIcon == Other.UnitIcon;
+	}
 };

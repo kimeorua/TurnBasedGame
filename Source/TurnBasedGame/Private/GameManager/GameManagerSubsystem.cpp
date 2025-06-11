@@ -25,7 +25,6 @@ void UGameManagerSubsystem::OnPostWorldInit(UWorld* World, const UWorld::Initial
 
 	if (GameModeClass->IsChildOf(ATurnBasedGameMode::StaticClass()))
 	{
-		SetCurrentTurn(ETurnBasedGameTurnStatus::TurnBegin);
 		UnitSet.Init();
 	}
 	else
@@ -95,4 +94,39 @@ void UGameManagerSubsystem::ActivateTurn()
 	default:
 		break;
 	}
+}
+
+void UGameManagerSubsystem::PickUnits()
+{
+	CurrentUnitUISet.Empty();
+
+	TArray<FUnitSeletUISet> TempPool = UnitSeletUISets;
+
+	for (int32 i = 0; i < 3 && TempPool.Num() > 0; ++i)
+	{
+		int32 RandIndex = FMath::RandRange(0, TempPool.Num() - 1);
+		FUnitSeletUISet Picked = TempPool[RandIndex];
+		CurrentUnitUISet.Add(Picked);
+		TempPool.RemoveAt(RandIndex);
+	}
+}
+
+void UGameManagerSubsystem::SpawnUnit(FUnitSeletUISet SpawndUnitUISet)
+{
+	FActorSpawnParameters Parameters;
+	Parameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+
+	ABaseUnit* SpawndUnit = GetWorld()->SpawnActor<ABaseUnit>(SpawndUnitUISet.Unit, Parameters);
+
+	if (IsValid(SpawndUnit))
+	{
+		SpawndUnit->SetActorLocation(LocationArr[SpawnNum]);
+		FRotator Rot = FRotator(0.f, 90.0f, 0.0f);
+		SpawndUnit->SetActorRotation(Rot);
+		SpawnNum++;
+
+		UnitSeletUISets.Remove(SpawndUnitUISet);
+		CurrentUnitUISet.Empty();
+	}
+	else { return; }
 }

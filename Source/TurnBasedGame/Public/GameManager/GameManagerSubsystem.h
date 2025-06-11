@@ -31,6 +31,12 @@ public:
 
 	virtual bool ShouldCreateSubsystem(UObject* Outer) const override { return GetClass() != StaticClass(); }
 
+	UFUNCTION(BlueprintCallable)
+	void PickUnits();
+
+	UFUNCTION(BlueprintCallable)
+	void SpawnUnit(FUnitSeletUISet SpawndUnitUISet);
+
 private:
 	UPROPERTY(VisibleAnywhere, Category = "Unit")
 	FUnitSets UnitSet;
@@ -43,4 +49,12 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Unit Icons", meta = (AllowPrivateAccess = "true"))
 	TArray<FUnitSeletUISet> UnitSeletUISets;
+
+	UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	TArray<FUnitSeletUISet> CurrentUnitUISet;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Unit Spawn Location", meta = (AllowPrivateAccess = "true"))
+	TArray<FVector>LocationArr;
+
+	int SpawnNum = 0;
 };
