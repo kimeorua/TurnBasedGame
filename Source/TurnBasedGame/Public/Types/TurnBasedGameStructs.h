@@ -96,3 +96,30 @@ struct FUnitSeletUISet
 		return UnitIcon == Other.UnitIcon;
 	}
 };
+
+USTRUCT(BlueprintType)
+struct FEnemyUnitSpawnInfo
+{
+	GENERATED_USTRUCT_BODY()
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<ABaseUnit> EnemyUnitClass;
+
+	UPROPERTY(EditAnywhere)
+	TArray<FVector> SpawnLocation;
+
+	UPROPERTY(EditAnywhere, meta = (ClampMin = "0", ClampMax = "3", UIMin = "0", UIMax = "3"))
+	int32 SpawnedEnemyNum = 1;
+};
+
+USTRUCT(BlueprintType)
+struct FEnemyUnitSpawnInfoTableRaw : public FTableRowBase
+{
+	GENERATED_USTRUCT_BODY()
+
+	UPROPERTY(EditAnywhere)
+	TArray<FEnemyUnitSpawnInfo>EnemySpawnerInfo;
+
+	UPROPERTY(EditAnywhere)
+	int32 StageNum = 1;
+};

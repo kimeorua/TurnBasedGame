@@ -37,8 +37,11 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SpawnUnit(FUnitSeletUISet SpawndUnitUISet);
 
+	UFUNCTION(BlueprintCallable)
+	void SpawnEnemyUnit();
+
 private:
-	UPROPERTY(VisibleAnywhere, Category = "Unit")
+	UPROPERTY(EditAnywhere, Category = "Unit")
 	FUnitSets UnitSet;
 
 	UPROPERTY()
@@ -57,4 +60,12 @@ private:
 	TArray<FVector>LocationArr;
 
 	int SpawnNum = 0;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Stage Clear", meta = (AllowPrivateAccess = "true"))
+	int32 CurrentStage = 1;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Enemy Spawner Info")
+	UDataTable* EnemySpawnerDataTable = nullptr;
+
+	FEnemyUnitSpawnInfoTableRaw* GetCurrentStageSpanwerTableRow(int32 StageNum) const;
 };

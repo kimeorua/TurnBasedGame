@@ -43,8 +43,8 @@ void UGameManagerSubsystem::AddUnit(EUnitTeamType TeamType, ABaseUnit* Unit)
 	UnitSet.AddUnit(TeamType, Unit);
 
 	//Debug::Print("Add Unit : " + Unit->GetActorNameOrLabel());
-	//Debug::Print("Player Count : ", UnitSet.PlayerUnits.Num());
-	//Debug::Print("Enemy Count : ", UnitSet.EnemyUnits.Num());
+	Debug::Print("Player Count : ", UnitSet.PlayerUnits.Num());
+	Debug::Print("Enemy Count : ", UnitSet.EnemyUnits.Num());
 }
 
 void UGameManagerSubsystem::ShowUnitUI(TArray<FUnitSkillSet> SkillSets)
@@ -74,6 +74,7 @@ void UGameManagerSubsystem::ActivateTurn()
 	case ETurnBasedGameTurnStatus::TurnBegin:
 		//TODO 턴 시작 (AP 회복, 특성 작동)
 		Debug::Print("TurnBegin");
+
 		break;
 	case ETurnBasedGameTurnStatus::PlayerTurn:
 		// TODO 플레이어 턴 (플레이어 Unit 클릭 활성 화)
@@ -129,4 +130,34 @@ void UGameManagerSubsystem::SpawnUnit(FUnitSeletUISet SpawndUnitUISet)
 		CurrentUnitUISet.Empty();
 	}
 	else { return; }
+}
+
+void UGameManagerSubsystem::SpawnEnemyUnit()
+{
+	for (const FEnemyUnitSpawnInfo& SpawnInfo : GetCurrentStageSpanwerTableRow(CurrentStage)->EnemySpawnerInfo)
+	{
+		if (!SpawnInfo.EnemyUnitClass) { continue; }
+
+		FActorSpawnParameters SpawnParams;
+		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+
+		for (int i = 0; i < SpawnInfo.SpawnedEnemyNum; i++)
+		{
+			ABaseUnit* SpawnedEnemyUnit = GetWorld()->SpawnActor<ABaseUnit>(SpawnInfo.EnemyUnitClass, SpawnInfo.SpawnLocation[i], FRotator::ZeroRotator, SpawnParams);
+			if (SpawnedEnemyUnit)
+			{
+				FRotator Rot = FRotator(0.0f, -90.0f, 0.0f);
+				SpawnedEnemyUnit->SetActorRotation(Rot);
+			}
+		}
+	}
+}
+
+FEnemyUnitSpawnInfoTableRaw* UGameManagerSubsystem::GetCurrentStageSpanwerTableRow(int32 StageNum) const
+{
+	const FName RowName = FName(TEXT("Stage") + FString::FromInt(StageNum));
+	FEnemyUnitSpawnInfoTableRaw* FoundRow = EnemySpawnerDataTable->FindRow<FEnemyUnitSpawnInfoTableRaw>(RowName, FString());
+
+	if (!FoundRow) { return nullptr; }
+	return FoundRow;
 }
