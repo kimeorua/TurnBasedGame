@@ -7,6 +7,7 @@
 #include "Types/TurnBasedGameStructs.h"
 #include "CombetComponent.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnActivateTalentDelegate);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class TURNBASEDGAME_API UCombetComponent : public UActorComponent
@@ -16,6 +17,11 @@ class TURNBASEDGAME_API UCombetComponent : public UActorComponent
 public:	
 	UCombetComponent();
 	TArray<FUnitSkillSet> GetSkillI() const;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnActivateTalentDelegate OnActivateTalent;
+
+	void ActivateTalent() { OnActivateTalent.Broadcast(); }
 
 protected:
 	virtual void BeginPlay() override;

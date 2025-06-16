@@ -23,5 +23,6 @@ class TURNBASEDGAME_API ICombetInterface
 
 public:
 	virtual UCombetComponent* GetCombetComponent() const = 0;
-
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	void TalentActivate();
 };

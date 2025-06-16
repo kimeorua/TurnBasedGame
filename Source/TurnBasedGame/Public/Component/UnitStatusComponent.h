@@ -22,6 +22,8 @@ public:
 
 	FUnitStatus GetUnitStatus() const;
 
+	void TurnStarted();
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;

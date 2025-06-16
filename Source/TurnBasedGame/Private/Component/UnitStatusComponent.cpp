@@ -29,6 +29,16 @@ FUnitStatus UUnitStatusComponent::GetUnitStatus() const
 	return UnitStatus;
 }
 
+void UUnitStatusComponent::TurnStarted()
+{
+	UnitStatus.AP += UnitStatus.Resilience;
+
+	if (UnitStatus.AP >= UnitStatus.MaxAP)
+	{
+		UnitStatus.AP = UnitStatus.MaxAP;
+	}
+}
+
 // Called when the game starts
 void UUnitStatusComponent::BeginPlay()
 {

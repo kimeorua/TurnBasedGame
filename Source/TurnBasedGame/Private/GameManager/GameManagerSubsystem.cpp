@@ -7,6 +7,8 @@
 #include "TurnBasedGameFunctionLibrary.h"
 #include "Component/UIComponent.h"
 #include "TurnBasedGameMode.h"
+#include "Interface/CombetInterface.h"
+#include "Interface/UnitStatusInterface.h"
 
 #include "DebugHelper.h"
 
@@ -73,8 +75,32 @@ void UGameManagerSubsystem::ActivateTurn()
 	{
 	case ETurnBasedGameTurnStatus::TurnBegin:
 		//TODO 턴 시작 (AP 회복, 특성 작동)
+
 		Debug::Print("TurnBegin");
 
+		for (ABaseUnit* Unit : UnitSet.PlayerUnits)
+		{
+			if (ICombetInterface* CombetComponent = Cast<ICombetInterface>(Unit))
+			{
+				CombetComponent->Execute_TalentActivate(Unit);
+			}
+			if (IUnitStatusInterface* UnitStatusInterface = Cast<IUnitStatusInterface>(Unit))
+			{
+				UnitStatusInterface->TurnStarted();
+			}
+		}
+
+		for (ABaseUnit* Unit : UnitSet.EnemyUnits)
+		{
+			if (ICombetInterface* CombetComponent = Cast<ICombetInterface>(Unit))
+			{
+				CombetComponent->Execute_TalentActivate(Unit);
+			}
+			if (IUnitStatusInterface* UnitStatusInterface = Cast<IUnitStatusInterface>(Unit))
+			{
+				UnitStatusInterface->TurnStarted();
+			}
+		}
 		break;
 	case ETurnBasedGameTurnStatus::PlayerTurn:
 		// TODO 플레이어 턴 (플레이어 Unit 클릭 활성 화)

@@ -36,6 +36,13 @@ public:
 
 	virtual UCombetComponent* GetCombetComponent() const override;
 
+	virtual void TalentActivate_Implementation() override;
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnTalentTriggered();
+
+	virtual void TurnStarted() const override;
+
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UnitStats", meta = (AllowPrivateAccess = "true"))
 	UUnitStatusComponent* UnitStatusComponent;

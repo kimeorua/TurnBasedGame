@@ -70,6 +70,17 @@ UCombetComponent* ABaseUnit::GetCombetComponent() const
 	return CombetComponent;
 }
 
+void ABaseUnit::TalentActivate_Implementation()
+{
+	GetCombetComponent()->ActivateTalent();
+}
+
+void ABaseUnit::TurnStarted() const
+{
+	GetUnitStatusComponent()->TurnStarted();
+	UnitUIComponent->OnChangeAP.Broadcast(UnitStatusComponent->GetUnitStatus().MaxAP, UnitStatusComponent->GetUnitStatus().AP, UnitStatusComponent->GetUnitStatus().AP / UnitStatusComponent->GetUnitStatus().MaxAP);
+}
+
 void ABaseUnit::BeginPlay()
 {
 	Super::BeginPlay();
@@ -106,6 +117,8 @@ void ABaseUnit::BeginPlay()
 		UnitUIComponent->OnChangeHP.Broadcast(UnitStatusComponent->GetUnitStatus().MaxHP, UnitStatusComponent->GetUnitStatus().HP, UnitStatusComponent->GetUnitStatus().HP / UnitStatusComponent->GetUnitStatus().MaxHP);
 		UnitUIComponent->OnChangeAP.Broadcast(UnitStatusComponent->GetUnitStatus().MaxAP, UnitStatusComponent->GetUnitStatus().AP, UnitStatusComponent->GetUnitStatus().AP / UnitStatusComponent->GetUnitStatus().MaxAP);
 	}
+
+	CombetComponent->OnActivateTalent.AddDynamic(this, &ABaseUnit::OnTalentTriggered);
 }
 
 void ABaseUnit::PossessedBy(AController* NewController)

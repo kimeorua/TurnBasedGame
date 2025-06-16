@@ -56,6 +56,9 @@ struct FUnitStatus
 	UPROPERTY(EditDefaultsOnly, Category = "UnitStatus|Stats", meta = (UIMin = "1", UIMax = "5"))
 	int Level = 1;
 
+	UPROPERTY(EditDefaultsOnly, Category = "UnitStatus|Stats")
+	float CriticalChance = 30.0f;
+
 	static const int MaxLevel;
 
 	static const float MaxRiseRate;
