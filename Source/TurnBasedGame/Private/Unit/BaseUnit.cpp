@@ -70,7 +70,7 @@ UCombetComponent* ABaseUnit::GetCombetComponent() const
 	return CombetComponent;
 }
 
-void ABaseUnit::TalentActivate_Implementation()
+void ABaseUnit::TalentActivate()
 {
 	GetCombetComponent()->ActivateTalent();
 }
@@ -117,8 +117,6 @@ void ABaseUnit::BeginPlay()
 		UnitUIComponent->OnChangeHP.Broadcast(UnitStatusComponent->GetUnitStatus().MaxHP, UnitStatusComponent->GetUnitStatus().HP, UnitStatusComponent->GetUnitStatus().HP / UnitStatusComponent->GetUnitStatus().MaxHP);
 		UnitUIComponent->OnChangeAP.Broadcast(UnitStatusComponent->GetUnitStatus().MaxAP, UnitStatusComponent->GetUnitStatus().AP, UnitStatusComponent->GetUnitStatus().AP / UnitStatusComponent->GetUnitStatus().MaxAP);
 	}
-
-	CombetComponent->OnActivateTalent.AddDynamic(this, &ABaseUnit::OnTalentTriggered);
 }
 
 void ABaseUnit::PossessedBy(AController* NewController)

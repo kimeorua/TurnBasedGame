@@ -10,7 +10,8 @@
 APlayerPawn::APlayerPawn()
 {
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
-	CameraBoom->SetupAttachment(GetRootComponent());
+
+	SetRootComponent(CameraBoom);
 	CameraBoom->TargetArmLength = 200.0f;
 	CameraBoom->SocketOffset = FVector(0.0f, 55.0f, 65.0f);
 

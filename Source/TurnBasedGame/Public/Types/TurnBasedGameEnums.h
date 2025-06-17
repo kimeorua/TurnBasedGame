@@ -34,3 +34,22 @@ enum class ETurnBasedGameTurnStatus : uint8
 	BattleTurn,
 	TurnEnd
 };
+
+UENUM(BlueprintType)
+enum class ETurnBasedGameEffectAttribute : uint8
+{
+	HP,
+	Resilience,
+	Speed,
+	ATK,
+	DEF,
+	CriticalChance,
+	Taunt
+};
+
+UENUM(BlueprintType)
+enum class ETurnBasedGameEffectType : uint8
+{
+	Buff,
+	Debuff
+};

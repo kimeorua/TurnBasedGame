@@ -36,10 +36,7 @@ public:
 
 	virtual UCombetComponent* GetCombetComponent() const override;
 
-	virtual void TalentActivate_Implementation() override;
-
-	UFUNCTION(BlueprintImplementableEvent)
-	void OnTalentTriggered();
+	virtual void TalentActivate() override;
 
 	virtual void TurnStarted() const override;
 

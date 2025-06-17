@@ -5,9 +5,8 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "Types/TurnBasedGameStructs.h"
+#include "Types/TurnBasedGameEnums.h"
 #include "CombetComponent.generated.h"
-
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnActivateTalentDelegate);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class TURNBASEDGAME_API UCombetComponent : public UActorComponent
@@ -18,10 +17,7 @@ public:
 	UCombetComponent();
 	TArray<FUnitSkillSet> GetSkillI() const;
 
-	UPROPERTY(BlueprintAssignable)
-	FOnActivateTalentDelegate OnActivateTalent;
-
-	void ActivateTalent() { OnActivateTalent.Broadcast(); }
+	void ActivateTalent();
 
 protected:
 	virtual void BeginPlay() override;
@@ -29,4 +25,9 @@ protected:
 private:
 	UPROPERTY(EditDefaultsOnly, Category = "Skills", meta = (AllowPrivateAccess = "true"))
 	TArray<FUnitSkillSet> SkillSets;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Talent", meta = (AllowPrivateAccess = "true"))
+	FUnitBuffs Talents;
+
+	TMultiMap<ETurnBasedGameEffectAttribute, FUnitBuffData> BuffMap;
 };
