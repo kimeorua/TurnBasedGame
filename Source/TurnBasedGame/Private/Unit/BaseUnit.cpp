@@ -10,6 +10,7 @@
 #include "Component/UnitStatusComponent.h"
 #include "Widget/TurnBasedGameUserWidget.h"
 #include "Component/CombetComponent.h"
+#include "Weapons/UnitWeapon.h"
 
 #include "DebugHelper.h"
 
@@ -81,6 +82,27 @@ void ABaseUnit::TurnStarted() const
 	UnitUIComponent->OnChangeAP.Broadcast(UnitStatusComponent->GetUnitStatus().MaxAP, UnitStatusComponent->GetUnitStatus().AP, UnitStatusComponent->GetUnitStatus().AP / UnitStatusComponent->GetUnitStatus().MaxAP);
 }
 
+void ABaseUnit::WeaponSpawnAndAttach()
+{
+	FActorSpawnParameters Parameters;
+	Parameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+
+	for (TSubclassOf<AUnitWeapon> WeaponClass : UnitWeaponClass)
+	{
+		if (WeaponClass)
+		{
+			AUnitWeapon* SpawnedWeapon = GetWorld()->SpawnActor<AUnitWeapon>(WeaponClass, Parameters);
+			Weapons.Add(SpawnedWeapon->GetWeaponEquipType(), SpawnedWeapon);
+
+			SpawnedWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, SpawnedWeapon->GetWeaponAttachSocket());
+		}
+		else
+		{
+			return;
+		}
+	}
+}
+
 void ABaseUnit::BeginPlay()
 {
 	Super::BeginPlay();
@@ -117,6 +139,8 @@ void ABaseUnit::BeginPlay()
 		UnitUIComponent->OnChangeHP.Broadcast(UnitStatusComponent->GetUnitStatus().MaxHP, UnitStatusComponent->GetUnitStatus().HP, UnitStatusComponent->GetUnitStatus().HP / UnitStatusComponent->GetUnitStatus().MaxHP);
 		UnitUIComponent->OnChangeAP.Broadcast(UnitStatusComponent->GetUnitStatus().MaxAP, UnitStatusComponent->GetUnitStatus().AP, UnitStatusComponent->GetUnitStatus().AP / UnitStatusComponent->GetUnitStatus().MaxAP);
 	}
+
+	WeaponSpawnAndAttach();
 }
 
 void ABaseUnit::PossessedBy(AController* NewController)

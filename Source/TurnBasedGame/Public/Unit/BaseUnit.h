@@ -13,6 +13,7 @@
 class UUnitStatusComponent;
 class UUnitUIComponent;
 class UWidgetComponent;
+class AUnitWeapon;
 
 UCLASS()
 class TURNBASEDGAME_API ABaseUnit : public ACharacter, public IUnitStatusInterface, public IUnitUIInterface, public ICombetInterface
@@ -52,6 +53,14 @@ private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UnitSkill", meta = (AllowPrivateAccess = "true"))
 	UCombetComponent* CombetComponent;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon|Class", meta = (AllowPrivateAccess = "true"))
+	TArray<TSubclassOf<AUnitWeapon>> UnitWeaponClass;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapon|Equiped", meta = (AllowPrivateAccess = "true"))
+	TMap<ETurnBasedGameWeaponEquipType, AUnitWeapon*> Weapons;
+
+	void WeaponSpawnAndAttach();
 
 protected:
 	virtual void BeginPlay() override;

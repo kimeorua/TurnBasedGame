@@ -53,3 +53,10 @@ enum class ETurnBasedGameEffectType : uint8
 	Buff,
 	Debuff
 };
+
+UENUM(BlueprintType)
+enum class ETurnBasedGameWeaponEquipType : uint8
+{
+	Left,
+	Right
+};
