@@ -94,7 +94,7 @@ void ABaseUnit::WeaponSpawnAndAttach()
 			AUnitWeapon* SpawnedWeapon = GetWorld()->SpawnActor<AUnitWeapon>(WeaponClass, Parameters);
 			Weapons.Add(SpawnedWeapon->GetWeaponEquipType(), SpawnedWeapon);
 
-			SpawnedWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, SpawnedWeapon->GetWeaponAttachSocket());
+			SpawnedWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale, SpawnedWeapon->GetWeaponAttachSocket());
 		}
 		else
 		{
