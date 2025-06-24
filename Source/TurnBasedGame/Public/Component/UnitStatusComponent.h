@@ -17,12 +17,7 @@ public:
 	// Sets default values for this component's properties
 	UUnitStatusComponent();
 
-	UFUNCTION(BlueprintCallable)
-	void LevelUp();
-
 	FUnitStatus GetUnitStatus() const;
-
-	void TurnStarted();
 
 protected:
 	// Called when the game starts

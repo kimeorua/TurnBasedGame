@@ -23,5 +23,4 @@ class TURNBASEDGAME_API ICombetInterface
 
 public:
 	virtual UCombetComponent* GetCombetComponent() const = 0;
-	virtual void TalentActivate() = 0;
 };

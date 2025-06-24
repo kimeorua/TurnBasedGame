@@ -69,18 +69,6 @@ struct FUnitStatus
 };
 
 USTRUCT(BlueprintType)
-struct FUnitSkillSet
-{
-	GENERATED_BODY()
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "UnitSkill")
-	UTexture2D* SkillCion = nullptr;
-
-	UPROPERTY(EditDefaultsOnly, Category = "UnitSkill")
-	UAnimMontage* SkillMontage = nullptr;
-};
-
-USTRUCT(BlueprintType)
 struct FUnitSeletUISet
 {
 	GENERATED_BODY()
@@ -125,36 +113,4 @@ struct FEnemyUnitSpawnInfoTableRaw : public FTableRowBase
 
 	UPROPERTY(EditAnywhere)
 	int32 StageNum = 1;
-};
-
-USTRUCT(BlueprintType)
-struct FUnitBuffData
-{
-	GENERATED_USTRUCT_BODY()
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	ETurnBasedGameEffectType Type = ETurnBasedGameEffectType::Buff;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	ETurnBasedGameEffectAttribute Attribute = ETurnBasedGameEffectAttribute::HP;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	float Value = 0.0f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	int32 Turn = 1;
-
-	bool operator==(const FUnitBuffData& Other) const
-	{
-		return Attribute == Other.Attribute;
-	}
-};
-
-USTRUCT(BlueprintType)
-struct FUnitBuffs
-{
-	GENERATED_USTRUCT_BODY()
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	TArray<FUnitBuffData> BuffData;
 };

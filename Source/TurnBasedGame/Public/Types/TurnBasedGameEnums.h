@@ -26,16 +26,6 @@ enum class ETurnBasedGameInputMode : uint8
 };
 
 UENUM(BlueprintType)
-enum class ETurnBasedGameTurnStatus : uint8
-{
-	TurnBegin,
-	PlayerTurn,
-	EnemyTurn,
-	BattleTurn,
-	TurnEnd
-};
-
-UENUM(BlueprintType)
 enum class ETurnBasedGameEffectAttribute : uint8
 {
 	HP,
@@ -45,13 +35,6 @@ enum class ETurnBasedGameEffectAttribute : uint8
 	DEF,
 	CriticalChance,
 	Taunt
-};
-
-UENUM(BlueprintType)
-enum class ETurnBasedGameEffectType : uint8
-{
-	Buff,
-	Debuff
 };
 
 UENUM(BlueprintType)

@@ -42,16 +42,10 @@ void ABaseUnit::UnitMouseEnd(UPrimitiveComponent* TouchedComp)
 
 void ABaseUnit::UnitClick(AActor* TouchedActor, FKey ButtonPressed)
 {
-	if (TeamType == EUnitTeamType::Player)
+	UGameManagerSubsystem* GM = GetGameInstance()->GetSubsystem<UGameManagerSubsystem>();
+	if (IsValid(GM))
 	{
-		if (ButtonPressed == EKeys::LeftMouseButton)
-		{
-			UGameManagerSubsystem* GM = GetGameInstance()->GetSubsystem<UGameManagerSubsystem>();
-			if (GM)
-			{
-				GM->ShowUnitUI(CombetComponent->GetSkillI());
-			}
-		}
+		Debug::Print("Unit Selected: " + this->GetActorNameOrLabel());
 	}
 	else { return; }
 }
@@ -71,17 +65,6 @@ UCombetComponent* ABaseUnit::GetCombetComponent() const
 	return CombetComponent;
 }
 
-void ABaseUnit::TalentActivate()
-{
-	GetCombetComponent()->ActivateTalent();
-}
-
-void ABaseUnit::TurnStarted() const
-{
-	GetUnitStatusComponent()->TurnStarted();
-	UnitUIComponent->OnChangeAP.Broadcast(UnitStatusComponent->GetUnitStatus().MaxAP, UnitStatusComponent->GetUnitStatus().AP, UnitStatusComponent->GetUnitStatus().AP / UnitStatusComponent->GetUnitStatus().MaxAP);
-}
-
 void ABaseUnit::WeaponSpawnAndAttach()
 {
 	FActorSpawnParameters Parameters;
@@ -96,10 +79,7 @@ void ABaseUnit::WeaponSpawnAndAttach()
 
 			SpawnedWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale, SpawnedWeapon->GetWeaponAttachSocket());
 		}
-		else
-		{
-			return;
-		}
+		else { return; }
 	}
 }
 

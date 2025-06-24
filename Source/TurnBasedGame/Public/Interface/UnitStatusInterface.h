@@ -25,5 +25,4 @@ class TURNBASEDGAME_API IUnitStatusInterface
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
 	virtual UUnitStatusComponent* GetUnitStatusComponent() const = 0;
-	virtual void TurnStarted() const = 0;
 };

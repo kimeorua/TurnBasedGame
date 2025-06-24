@@ -15,19 +15,9 @@ class TURNBASEDGAME_API UCombetComponent : public UActorComponent
 
 public:	
 	UCombetComponent();
-	TArray<FUnitSkillSet> GetSkillI() const;
-
-	void ActivateTalent();
 
 protected:
 	virtual void BeginPlay() override;
 
 private:
-	UPROPERTY(EditDefaultsOnly, Category = "Skills", meta = (AllowPrivateAccess = "true"))
-	TArray<FUnitSkillSet> SkillSets;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Talent", meta = (AllowPrivateAccess = "true"))
-	FUnitBuffs Talents;
-
-	TMultiMap<ETurnBasedGameEffectAttribute, FUnitBuffData> BuffMap;
 };

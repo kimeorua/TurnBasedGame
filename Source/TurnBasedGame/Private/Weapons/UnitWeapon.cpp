@@ -25,4 +25,6 @@ FName AUnitWeapon::GetWeaponAttachSocket() const
 void AUnitWeapon::BeginPlay()
 {
 	Super::BeginPlay();
+
+	Mesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }

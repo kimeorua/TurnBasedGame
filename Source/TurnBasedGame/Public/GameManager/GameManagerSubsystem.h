@@ -15,21 +15,13 @@ class TURNBASEDGAME_API UGameManagerSubsystem : public UGameInstanceSubsystem
 	GENERATED_BODY()
 
 public:
+
+#pragma region Init & Deinit
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 	virtual void Deinitialize() override;
+#pragma endregion
 
-	void AddUnit(EUnitTeamType TeamType, ABaseUnit* Unit );
-
-	void ShowUnitUI(TArray<FUnitSkillSet> SkillSets);
-
-	void OnPostWorldInit(UWorld* World, const UWorld::InitializationValues IVS);
-
-	UFUNCTION(BlueprintCallable)
-	void SetCurrentTurn(ETurnBasedGameTurnStatus NewCurrentTurn);
-
-	void ActivateTurn();
-
-	virtual bool ShouldCreateSubsystem(UObject* Outer) const override { return GetClass() != StaticClass(); }
+#pragma region Unit Spawn & Register
 
 	UFUNCTION(BlueprintCallable)
 	void PickUnits();
@@ -40,25 +32,33 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SpawnEnemyUnit();
 
+	void AddUnit(EUnitTeamType TeamType, ABaseUnit* Unit);
+
+#pragma endregion
+
+	void OnPostWorldInit(UWorld* World, const UWorld::InitializationValues IVS);
+
+	virtual bool ShouldCreateSubsystem(UObject* Outer) const override { return GetClass() != StaticClass(); }
+
 private:
+
+#pragma region Unit
 	UPROPERTY(EditAnywhere, Category = "Unit")
 	FUnitSets UnitSet;
+#pragma endregion
 
-	UPROPERTY()
-	APlayerPawn* PlayerPawn;
-
-	UPROPERTY()
-	ETurnBasedGameTurnStatus CurrentTurn;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Unit Icons", meta = (AllowPrivateAccess = "true"))
+#pragma region UnitSpawn
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "UnitSpawn|UI", meta = (AllowPrivateAccess = "true"))
 	TArray<FUnitSeletUISet> UnitSeletUISets;
 
 	UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	TArray<FUnitSeletUISet> CurrentUnitUISet;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Unit Spawn Location", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "UnitSpawn|Location", meta = (AllowPrivateAccess = "true"))
 	TArray<FVector>LocationArr;
+#pragma endregion
 
+#pragma region Stage
 	int SpawnNum = 0;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Stage Clear", meta = (AllowPrivateAccess = "true"))
@@ -68,4 +68,8 @@ private:
 	UDataTable* EnemySpawnerDataTable = nullptr;
 
 	FEnemyUnitSpawnInfoTableRaw* GetCurrentStageSpanwerTableRow(int32 StageNum) const;
+#pragma endregion
+
+	UPROPERTY()
+	APlayerPawn* PlayerPawn;
 };

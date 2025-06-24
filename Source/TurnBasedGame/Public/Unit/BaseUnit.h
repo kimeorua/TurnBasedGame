@@ -23,36 +23,50 @@ class TURNBASEDGAME_API ABaseUnit : public ACharacter, public IUnitStatusInterfa
 public:
 	ABaseUnit();
 
+#pragma region Mouse
+
 	UFUNCTION()
 	void UnitMouseOver(UPrimitiveComponent* TouchedComp);
 	UFUNCTION()
 	void UnitMouseEnd(UPrimitiveComponent* TouchedComp);
-
 	UFUNCTION()
 	void UnitClick(AActor* TouchedActor, FKey ButtonPressed);
 
+#pragma endregion
+
+	// ~Begin IUnitStatusInterface
 	virtual UUnitStatusComponent* GetUnitStatusComponent() const override;
+	// ~End IUnitStatusInterface
 
+	// ~Begin IUnitUIInterface
 	virtual UUnitUIComponent* GetUnitUIComponent() const override;
+	// ~End IUnitUIInterface
 
+	// ~Begin ICombetInterface
 	virtual UCombetComponent* GetCombetComponent() const override;
-
-	virtual void TalentActivate() override;
-
-	virtual void TurnStarted() const override;
+	// ~End ICombetInterface
 
 private:
+
+#pragma region Component
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UnitStats", meta = (AllowPrivateAccess = "true"))
 	UUnitStatusComponent* UnitStatusComponent;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UnitStats", meta = (AllowPrivateAccess = "true"))
 	UUnitUIComponent* UnitUIComponent;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UnitSkill", meta = (AllowPrivateAccess = "true"))
+	UCombetComponent* CombetComponent;
+#pragma endregion
+
+#pragma region Status Bar
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI", meta = (AllowPrivateAccess = "true"))
 	UWidgetComponent* UnitStatsBar;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UnitSkill", meta = (AllowPrivateAccess = "true"))
-	UCombetComponent* CombetComponent;
+#pragma endregion
+
+#pragma region Unit Weapon
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon|Class", meta = (AllowPrivateAccess = "true"))
 	TArray<TSubclassOf<AUnitWeapon>> UnitWeaponClass;
@@ -61,6 +75,8 @@ private:
 	TMap<ETurnBasedGameWeaponEquipType, AUnitWeapon*> Weapons;
 
 	void WeaponSpawnAndAttach();
+
+#pragma endregion
 
 protected:
 	virtual void BeginPlay() override;
