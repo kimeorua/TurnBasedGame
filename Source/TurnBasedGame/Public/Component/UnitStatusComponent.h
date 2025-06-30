@@ -17,6 +17,8 @@ public:
 	// Sets default values for this component's properties
 	UUnitStatusComponent();
 
+	void APRecovery();
+
 	FUnitStatus GetUnitStatus() const;
 
 protected:

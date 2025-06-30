@@ -36,8 +36,17 @@ public:
 
 #pragma endregion
 
-	void OnPostWorldInit(UWorld* World, const UWorld::InitializationValues IVS);
+#pragma region TurnMangement
+	UFUNCTION(BlueprintCallable)
+	void SetCurrentTurnMode(ETurnBasedGameTurnMode NewTurnMode);
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	ETurnBasedGameTurnMode GetCurrentTurnMode() const;
 
+	UFUNCTION(BlueprintCallable)
+	void ActivateTurnMode(ETurnBasedGameTurnMode TurnMode);
+#pragma endregion
+
+	void OnPostWorldInit(UWorld* World, const UWorld::InitializationValues IVS);
 	virtual bool ShouldCreateSubsystem(UObject* Outer) const override { return GetClass() != StaticClass(); }
 
 private:
@@ -69,6 +78,12 @@ private:
 
 	FEnemyUnitSpawnInfoTableRaw* GetCurrentStageSpanwerTableRow(int32 StageNum) const;
 #pragma endregion
+
+#pragma region Turn
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Turn", meta = (AllowPrivateAccess = "true"))
+	ETurnBasedGameTurnMode CurrentTurnMode = ETurnBasedGameTurnMode::None;
+#pragma endregion
+
 
 	UPROPERTY()
 	APlayerPawn* PlayerPawn;

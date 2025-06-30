@@ -55,6 +55,12 @@ UUnitStatusComponent* ABaseUnit::GetUnitStatusComponent() const
 	return UnitStatusComponent;
 }
 
+void ABaseUnit::APRecovery()
+{
+	GetUnitStatusComponent()->APRecovery();
+	UnitUIComponent->OnChangeAP.Broadcast(UnitStatusComponent->GetUnitStatus().MaxAP, UnitStatusComponent->GetUnitStatus().AP, UnitStatusComponent->GetUnitStatus().AP / UnitStatusComponent->GetUnitStatus().MaxAP);
+}
+
 UUnitUIComponent* ABaseUnit::GetUnitUIComponent() const
 {
 	return UnitUIComponent;

@@ -59,10 +59,12 @@ private:
 	UCombetComponent* CombetComponent;
 #pragma endregion
 
-#pragma region Status Bar
+#pragma region Status
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI", meta = (AllowPrivateAccess = "true"))
 	UWidgetComponent* UnitStatsBar;
+
+	virtual void APRecovery() override;
 
 #pragma endregion
 
@@ -85,5 +87,5 @@ protected:
 	//~ End APawn Interface
 
 	UPROPERTY(EditDefaultsOnly, Category = "Team")
-	EUnitTeamType TeamType;
+	EUnitTeamType TeamType = EUnitTeamType::None;
 };

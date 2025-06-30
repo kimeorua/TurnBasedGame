@@ -30,6 +30,7 @@ enum class ETurnBasedGameEffectAttribute : uint8
 {
 	HP,
 	Resilience,
+	AP,
 	Speed,
 	ATK,
 	DEF,
@@ -42,4 +43,14 @@ enum class ETurnBasedGameWeaponEquipType : uint8
 {
 	Left,
 	Right
+};
+
+UENUM(BlueprintType)
+enum class ETurnBasedGameTurnMode : uint8
+{
+	StandbyTurn UMETA(DisplayName = "StandbyTurn"),
+	PlayerTurn UMETA(DisplayName = "PlayerTurn"),
+	EnemyTurn UMETA(DisplayName = "EnemyTurn"),
+	EndTurn UMETA(DisplayName = "EndTurn"),
+	None UMETA(DisplayName = "None")
 };

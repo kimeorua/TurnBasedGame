@@ -39,6 +39,52 @@ void UGameManagerSubsystem::AddUnit(EUnitTeamType TeamType, ABaseUnit* Unit)
 	UnitSet.AddUnit(TeamType, Unit);
 }
 
+void UGameManagerSubsystem::SetCurrentTurnMode(ETurnBasedGameTurnMode NewTurnMode)
+{
+	CurrentTurnMode = NewTurnMode;
+
+	ActivateTurnMode(CurrentTurnMode);
+}
+
+ETurnBasedGameTurnMode UGameManagerSubsystem::GetCurrentTurnMode() const
+{
+	 return CurrentTurnMode;
+}
+
+void UGameManagerSubsystem::ActivateTurnMode(ETurnBasedGameTurnMode TurnMode)
+{
+	switch (CurrentTurnMode)
+	{
+	case ETurnBasedGameTurnMode::StandbyTurn:
+		Debug::Print(TEXT("StandbyTurn Activated!"), FColor::Green);
+
+		for (ABaseUnit* Unit : UnitSet.PlayerUnits)
+		{
+			if (IUnitStatusInterface* Status = Cast<IUnitStatusInterface>(Unit)) { Status->APRecovery(); }
+		}
+
+		for (ABaseUnit* Unit : UnitSet.EnemyUnits)
+		{
+			if (IUnitStatusInterface* Status = Cast<IUnitStatusInterface>(Unit)) { Status->APRecovery(); }
+		}
+
+		break;
+	case ETurnBasedGameTurnMode::PlayerTurn:
+		Debug::Print(TEXT("PlayerTurn Activated!"), FColor::Green);
+		break;
+	case ETurnBasedGameTurnMode::EnemyTurn:
+		Debug::Print(TEXT("EnemyTurn Activated!"), FColor::Green);
+		break;
+	case ETurnBasedGameTurnMode::EndTurn:
+		Debug::Print(TEXT("EndTurn Activated!"), FColor::Green);
+		break;
+	case ETurnBasedGameTurnMode::None:
+		break;
+	default:
+		break;
+	}
+}
+
 void UGameManagerSubsystem::PickUnits()
 {
 	CurrentUnitUISet.Empty();

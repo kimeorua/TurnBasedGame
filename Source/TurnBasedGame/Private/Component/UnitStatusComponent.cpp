@@ -9,6 +9,11 @@ UUnitStatusComponent::UUnitStatusComponent()
 	
 }
 
+void UUnitStatusComponent::APRecovery()
+{
+	UnitStatus.AP += UnitStatus.Resilience;
+}
+
 FUnitStatus UUnitStatusComponent::GetUnitStatus() const
 {
 	return UnitStatus;
