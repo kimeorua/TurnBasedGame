@@ -25,35 +25,35 @@ void UCombatComponent::ApplyBuff(const FBuffData& Buff)
 	case ETurnBasedGameEffectAttribute::ATK :
 		if (IUnitStatusInterface* Status = Cast<IUnitStatusInterface>(OwnerUnit))
 		{
-			Increase = CalculateBufffiValue(Buff);
+			Increase = Status->GetUnitStatusComponent()->GetUnitStatus().ATK * CalculateBufffiValue(Buff);
 			Status->GetUnitStatusComponent()->CalculateStatus(ETurnBasedGameEffectAttribute::ATK, Increase);
 		}
 		break;
 	case ETurnBasedGameEffectAttribute::DEF:
 		if (IUnitStatusInterface* Status = Cast<IUnitStatusInterface>(OwnerUnit))
 		{
-			Increase = CalculateBufffiValue(Buff);
+			Increase = Status->GetUnitStatusComponent()->GetUnitStatus().DEF * CalculateBufffiValue(Buff);
 			Status->GetUnitStatusComponent()->CalculateStatus(ETurnBasedGameEffectAttribute::DEF, Increase);
 		}
 		break;
 	case ETurnBasedGameEffectAttribute::CriticalChance:
 		if (IUnitStatusInterface* Status = Cast<IUnitStatusInterface>(OwnerUnit))
 		{
-			Increase = CalculateBufffiValue(Buff);
+			Increase = Status->GetUnitStatusComponent()->GetUnitStatus().CriticalChance * CalculateBufffiValue(Buff);
 			Status->GetUnitStatusComponent()->CalculateStatus(ETurnBasedGameEffectAttribute::CriticalChance, Increase);
 		}
 		break;
 	case ETurnBasedGameEffectAttribute::Resilience:
 		if (IUnitStatusInterface* Status = Cast<IUnitStatusInterface>(OwnerUnit))
 		{
-			Increase = CalculateBufffiValue(Buff);
+			Increase = Status->GetUnitStatusComponent()->GetUnitStatus().Resilience * CalculateBufffiValue(Buff);
 			Status->GetUnitStatusComponent()->CalculateStatus(ETurnBasedGameEffectAttribute::Resilience, Increase);
 		}
 		break;
 	case ETurnBasedGameEffectAttribute::Speed:
 		if (IUnitStatusInterface* Status = Cast<IUnitStatusInterface>(OwnerUnit))
 		{
-			Increase = CalculateBufffiValue(Buff);
+			Increase = Status->GetUnitStatusComponent()->GetUnitStatus().Speed * CalculateBufffiValue(Buff);
 			Status->GetUnitStatusComponent()->CalculateStatus(ETurnBasedGameEffectAttribute::Speed, Increase);
 		}
 		break;
