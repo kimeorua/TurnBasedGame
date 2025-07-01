@@ -44,6 +44,7 @@ public:
 
 	// ~Begin ICombatInterface
 	virtual UCombatComponent* GetCombatComponent() const override;
+	virtual void ApplySpecificity() override;
 	// ~End ICombatInterface
 
 private:

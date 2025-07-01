@@ -61,11 +61,13 @@ void UGameManagerSubsystem::ActivateTurnMode(ETurnBasedGameTurnMode TurnMode)
 		for (ABaseUnit* Unit : UnitSet.PlayerUnits)
 		{
 			if (IUnitStatusInterface* Status = Cast<IUnitStatusInterface>(Unit)) { Status->APRecovery(); }
+			if (ICombatInterface* Combet = Cast<ICombatInterface>(Unit)) { Combet->ApplySpecificity(); }
 		}
 
 		for (ABaseUnit* Unit : UnitSet.EnemyUnits)
 		{
 			if (IUnitStatusInterface* Status = Cast<IUnitStatusInterface>(Unit)) { Status->APRecovery(); }
+			if (ICombatInterface* Combet = Cast<ICombatInterface>(Unit)) { Combet->ApplySpecificity(); }
 		}
 
 		break;

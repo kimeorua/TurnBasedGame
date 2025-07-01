@@ -19,8 +19,19 @@ FUnitStatus UUnitStatusComponent::GetUnitStatus() const
 	return UnitStatus;
 }
 
+FUnitStatus UUnitStatusComponent::GetCombetStatus() const
+{
+	return CombetStatus;
+}
+
+void UUnitStatusComponent::CalculateStatus(ETurnBasedGameEffectAttribute Attribute, float Value)
+{
+	CombetStatus.FindStat(Attribute) = UnitStatus.FindStat(Attribute) + Value;
+}
+
 // Called when the game starts
 void UUnitStatusComponent::BeginPlay()
 {
 	Super::BeginPlay();
+	CombetStatus = UnitStatus;
 }

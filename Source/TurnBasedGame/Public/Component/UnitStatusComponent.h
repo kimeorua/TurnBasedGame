@@ -20,6 +20,9 @@ public:
 	void APRecovery();
 
 	FUnitStatus GetUnitStatus() const;
+	FUnitStatus GetCombetStatus() const;
+
+	void CalculateStatus(ETurnBasedGameEffectAttribute Attribute, float Value);
 
 protected:
 	// Called when the game starts
@@ -28,4 +31,7 @@ protected:
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UnitStats", meta = (AllowPrivateAccess = "true"))
 	FUnitStatus UnitStatus;
+
+	UPROPERTY(VisibleAnywhere, Category = "UnitStats")
+	FUnitStatus CombetStatus;
 };

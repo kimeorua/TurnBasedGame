@@ -71,6 +71,11 @@ UCombatComponent* ABaseUnit::GetCombatComponent() const
 	return CombatComponent;
 }
 
+void ABaseUnit::ApplySpecificity()
+{
+	GetCombatComponent()->ApplySpecificity();
+}
+
 void ABaseUnit::WeaponSpawnAndAttach()
 {
 	FActorSpawnParameters Parameters;

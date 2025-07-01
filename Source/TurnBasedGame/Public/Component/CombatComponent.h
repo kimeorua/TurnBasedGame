@@ -8,6 +8,8 @@
 #include "Types/TurnBasedGameEnums.h"
 #include "CombatComponent.generated.h"
 
+class ABaseUnit;
+
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class TURNBASEDGAME_API UCombatComponent : public UActorComponent
 {
@@ -15,6 +17,8 @@ class TURNBASEDGAME_API UCombatComponent : public UActorComponent
 
 public:	
 	UCombatComponent();
+
+	void ApplySpecificity();
 
 protected:
 	virtual void BeginPlay() override;
@@ -25,4 +29,12 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
 	FSkillData Skill;
+
+	UPROPERTY()
+	ABaseUnit* OwnerUnit;
+
+	TMultiMap<ETurnBasedGameEffectAttribute, FBuffData>BuffMap;
+
+	void ApplyBuff(const FBuffData& Buff);
+	float CalculateBufffiValue(const FBuffData& Buff);
 };

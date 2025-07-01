@@ -30,3 +30,28 @@ const float FUnitStatus::MaxRiseRate = 2.0f;
 const float FUnitStatus::MaxAP = 2.0f;
 const float FUnitStatus::LevelUpStats = 100.0f;
 const int FUnitStatus::MaxLevel = 5;
+
+float& FUnitStatus::FindStat(ETurnBasedGameEffectAttribute Attribute)
+{
+	switch (Attribute)
+	{
+	case ETurnBasedGameEffectAttribute::HP:
+		return HP;
+	case ETurnBasedGameEffectAttribute::Resilience:
+		return Resilience;
+	case ETurnBasedGameEffectAttribute::AP:
+		return AP;
+	case ETurnBasedGameEffectAttribute::Speed:
+		return Speed;
+	case ETurnBasedGameEffectAttribute::ATK:
+		return ATK;
+	case ETurnBasedGameEffectAttribute::DEF:
+		return DEF;
+	case ETurnBasedGameEffectAttribute::CriticalChance:
+		return CriticalChance;
+	default:
+		checkNoEntry(); // 디버깅 시 충돌
+		static float DummyStat = 0.0f;
+		return DummyStat;
+	}
+}
