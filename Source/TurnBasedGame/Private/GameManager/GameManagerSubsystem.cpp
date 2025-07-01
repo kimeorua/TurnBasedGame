@@ -7,7 +7,7 @@
 #include "TurnBasedGameFunctionLibrary.h"
 #include "Component/UIComponent.h"
 #include "TurnBasedGameMode.h"
-#include "Interface/CombetInterface.h"
+#include "Interface/CombatInterface.h"
 #include "Interface/UnitStatusInterface.h"
 
 #include "DebugHelper.h"

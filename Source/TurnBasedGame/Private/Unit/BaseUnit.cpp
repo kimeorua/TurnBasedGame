@@ -9,7 +9,7 @@
 #include "Component/UnitUIComponent.h"
 #include "Component/UnitStatusComponent.h"
 #include "Widget/TurnBasedGameUserWidget.h"
-#include "Component/CombetComponent.h"
+#include "Component/CombatComponent.h"
 #include "Weapons/UnitWeapon.h"
 
 #include "DebugHelper.h"
@@ -25,7 +25,7 @@ ABaseUnit::ABaseUnit()
 	UnitStatsBar = CreateDefaultSubobject<UWidgetComponent>(TEXT("UnitStatsBar"));
 	UnitStatsBar->SetupAttachment(GetMesh());
 
-	CombetComponent = CreateDefaultSubobject<UCombetComponent>(TEXT("CombetComponent"));
+	CombatComponent = CreateDefaultSubobject<UCombatComponent>(TEXT("CombatComponent"));
 }
 
 void ABaseUnit::UnitMouseOver(UPrimitiveComponent* TouchedComp)
@@ -66,9 +66,9 @@ UUnitUIComponent* ABaseUnit::GetUnitUIComponent() const
 	return UnitUIComponent;
 }
 
-UCombetComponent* ABaseUnit::GetCombetComponent() const
+UCombatComponent* ABaseUnit::GetCombatComponent() const
 {
-	return CombetComponent;
+	return CombatComponent;
 }
 
 void ABaseUnit::WeaponSpawnAndAttach()

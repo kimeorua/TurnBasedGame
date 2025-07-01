@@ -6,18 +6,23 @@
 #include "Components/ActorComponent.h"
 #include "Types/TurnBasedGameStructs.h"
 #include "Types/TurnBasedGameEnums.h"
-#include "CombetComponent.generated.h"
+#include "CombatComponent.generated.h"
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class TURNBASEDGAME_API UCombetComponent : public UActorComponent
+class TURNBASEDGAME_API UCombatComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:	
-	UCombetComponent();
+	UCombatComponent();
 
 protected:
 	virtual void BeginPlay() override;
 
 private:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
+	FBuffData Specificity;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
+	FSkillData Skill;
 };

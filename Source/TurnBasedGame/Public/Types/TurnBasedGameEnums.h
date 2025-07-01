@@ -54,3 +54,17 @@ enum class ETurnBasedGameTurnMode : uint8
 	EndTurn UMETA(DisplayName = "EndTurn"),
 	None UMETA(DisplayName = "None")
 };
+
+UENUM(BlueprintType)
+enum class ETurnBasedGameBuffType : uint8
+{
+	Buff UMETA(DisplayName = "Buff"),
+	Debuff UMETA(DisplayName = "Debuff"),
+};
+
+UENUM(BlueprintType)
+enum class ETurnBasedGameSkillType : uint8
+{
+	Buff UMETA(DisplayName = "Buff"),
+	Attack UMETA(DisplayName = "Attack"),
+};

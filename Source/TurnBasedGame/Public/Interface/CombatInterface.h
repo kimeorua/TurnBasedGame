@@ -4,12 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
-#include "CombetInterface.generated.h"
+#include "CombatInterface.generated.h"
 
-class UCombetComponent;
+class UCombatComponent;
 
 UINTERFACE(MinimalAPI)
-class UCombetInterface : public UInterface
+class UCombatInterface : public UInterface
 {
 	GENERATED_BODY()
 };
@@ -17,10 +17,10 @@ class UCombetInterface : public UInterface
 /**
  * 
  */
-class TURNBASEDGAME_API ICombetInterface
+class TURNBASEDGAME_API ICombatInterface
 {
 	GENERATED_BODY()
 
 public:
-	virtual UCombetComponent* GetCombetComponent() const = 0;
+	virtual UCombatComponent* GetCombatComponent() const = 0;
 };

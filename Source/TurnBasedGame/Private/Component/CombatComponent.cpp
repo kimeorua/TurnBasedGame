@@ -1,16 +1,16 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Component/CombetComponent.h"
+#include "Component/CombatComponent.h"
 
 #include "DebugHelper.h"
 
-UCombetComponent::UCombetComponent()
+UCombatComponent::UCombatComponent()
 {
 
 }
 
-void UCombetComponent::BeginPlay()
+void UCombatComponent::BeginPlay()
 {
 	Super::BeginPlay();
 }

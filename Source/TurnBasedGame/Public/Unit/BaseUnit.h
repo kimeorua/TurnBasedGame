@@ -7,7 +7,7 @@
 #include "Types/TurnBasedGameEnums.h"
 #include "Interface/UnitStatusInterface.h"
 #include "Interface/UnitUIInterface.h"
-#include "Interface/CombetInterface.h"
+#include "Interface/CombatInterface.h"
 #include "BaseUnit.generated.h"
 
 class UUnitStatusComponent;
@@ -16,7 +16,7 @@ class UWidgetComponent;
 class AUnitWeapon;
 
 UCLASS()
-class TURNBASEDGAME_API ABaseUnit : public ACharacter, public IUnitStatusInterface, public IUnitUIInterface, public ICombetInterface
+class TURNBASEDGAME_API ABaseUnit : public ACharacter, public IUnitStatusInterface, public IUnitUIInterface, public ICombatInterface
 {
 	GENERATED_BODY()
 
@@ -42,9 +42,9 @@ public:
 	virtual UUnitUIComponent* GetUnitUIComponent() const override;
 	// ~End IUnitUIInterface
 
-	// ~Begin ICombetInterface
-	virtual UCombetComponent* GetCombetComponent() const override;
-	// ~End ICombetInterface
+	// ~Begin ICombatInterface
+	virtual UCombatComponent* GetCombatComponent() const override;
+	// ~End ICombatInterface
 
 private:
 
@@ -56,7 +56,7 @@ private:
 	UUnitUIComponent* UnitUIComponent;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UnitSkill", meta = (AllowPrivateAccess = "true"))
-	UCombetComponent* CombetComponent;
+	UCombatComponent* CombatComponent;
 #pragma endregion
 
 #pragma region Status

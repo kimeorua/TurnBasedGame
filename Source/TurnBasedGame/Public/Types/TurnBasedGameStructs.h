@@ -114,3 +114,39 @@ struct FEnemyUnitSpawnInfoTableRaw : public FTableRowBase
 	UPROPERTY(EditAnywhere)
 	int32 StageNum = 1;
 };
+
+USTRUCT(BlueprintType)
+struct FBuffData
+{
+	GENERATED_USTRUCT_BODY()
+
+	UPROPERTY(EditAnywhere)
+	ETurnBasedGameBuffType Type = ETurnBasedGameBuffType::Buff;
+
+	UPROPERTY(EditAnywhere)
+	ETurnBasedGameEffectAttribute Attribute = ETurnBasedGameEffectAttribute::ATK;
+
+	UPROPERTY(EditAnywhere)
+	float Value = 0.0f;
+
+	UPROPERTY(EditAnywhere, meta = (ClampMin = "1", ClampMax = "3", UIMin = "1", UIMax = "3"))
+	int32 Turn = 1;
+};
+
+USTRUCT(BlueprintType)
+struct FSkillData
+{
+	GENERATED_USTRUCT_BODY()
+
+	UPROPERTY(EditAnywhere)
+	ETurnBasedGameSkillType Type = ETurnBasedGameSkillType::Attack;
+
+	UPROPERTY(EditAnywhere)
+	UAnimMontage* SkillMontage;
+
+	UPROPERTY(EditAnywhere, meta = (EditCondition = "Type == ETurnBasedGameSkillType::Buff"))
+	FBuffData Buff;
+
+	UPROPERTY(EditAnywhere, meta = (EditCondition = "Type == ETurnBasedGameSkillType::Attack"))
+	float Rate;
+};
