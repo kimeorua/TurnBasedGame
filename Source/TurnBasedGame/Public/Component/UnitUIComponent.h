@@ -8,7 +8,6 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FOnChangeHP, float, Max, float, Current, float, Persent);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FOnChangeAP, float, Max, float, Current, float, Persent);
-//DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FOnChangeAP, float, Max, float, Current, float, Persent);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class TURNBASEDGAME_API UUnitUIComponent : public UActorComponent

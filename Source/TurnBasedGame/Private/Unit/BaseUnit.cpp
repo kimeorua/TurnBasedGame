@@ -45,7 +45,29 @@ void ABaseUnit::UnitClick(AActor* TouchedActor, FKey ButtonPressed)
 	UGameManagerSubsystem* GM = GetGameInstance()->GetSubsystem<UGameManagerSubsystem>();
 	if (IsValid(GM))
 	{
-		Debug::Print("Unit Selected: " + this->GetActorNameOrLabel());
+		switch (GM->GetSelecteType())
+		{
+		case ETurnBasedGameUnitSelecteType::PlayerUnit:
+			if (TeamType == EUnitTeamType::Player)
+			{
+				TArray<UTexture2D*>SkillIcons;
+				GetCombatComponent()->GetAllSkillIcon(SkillIcons);
+
+				GM->SetSelectedUnit(this);
+				GM->ShowUnitSkillUI(SkillIcons);
+				return;
+			}
+			else { return; }
+
+		case ETurnBasedGameUnitSelecteType::TargetIsPlayerUnit:
+			//TODO 스킬 선택 후 타겟이 플레이어 유닛 일 경우 작동
+			break;
+		case ETurnBasedGameUnitSelecteType::TargetIsEnemyUnit:
+			// TOTO 스킬 선택 후 타겟이 적 유닛 일 경우 작동
+			break;
+		default:
+			break;
+		}
 	}
 	else { return; }
 }

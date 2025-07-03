@@ -20,15 +20,17 @@ public:
 
 	void ApplySpecificity();
 
+	void GetAllSkillIcon(TArray<UTexture2D*>&AllSkillIcons);
+
 protected:
 	virtual void BeginPlay() override;
 
 private:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
-	FBuffData Specificity;
+	TArray<FBuffData> Specificity;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
-	FSkillData Skill;
+	TArray<FSkillData> Skill;
 
 	UPROPERTY()
 	ABaseUnit* OwnerUnit;

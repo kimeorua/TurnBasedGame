@@ -19,6 +19,18 @@ void UGameManagerSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 	FWorldDelegates::OnPostWorldInitialization.AddUObject(this, &UGameManagerSubsystem::OnPostWorldInit);
 }
 
+void UGameManagerSubsystem::ShowUnitSkillUI(const TArray<UTexture2D*> SkillCions)
+{
+	if (!PlayerPawn)
+	{
+		APlayerController* PC = GetWorld()->GetFirstPlayerController();
+		PlayerPawn = Cast<APlayerPawn>(PC->GetPawn());
+	}
+
+	UTurnBasedGameFunctionLibrary::ToggleInputMode(GetWorld(), ETurnBasedGameInputMode::UIOnly);
+	PlayerPawn->GetUIComponent()->OnShowSkillUI.Broadcast(SkillCions[0], SkillCions[1], SkillCions[2], SelectedUnit);
+}
+
 void UGameManagerSubsystem::OnPostWorldInit(UWorld* World, const UWorld::InitializationValues IVS)
 {
 	if (!World || !World->IsGameWorld()) { return; }
@@ -27,6 +39,17 @@ void UGameManagerSubsystem::OnPostWorldInit(UWorld* World, const UWorld::Initial
 
 	if (GameModeClass->IsChildOf(ATurnBasedGameMode::StaticClass())) { UnitSet.Init(); }
 	else { return; }
+}
+
+void UGameManagerSubsystem::SetSelectedUnit(ABaseUnit* Unit)
+{
+	if (IsValid(Unit)) { SelectedUnit = Unit; }
+	else { return; }
+}
+
+ABaseUnit* UGameManagerSubsystem::GetSelectedUnit() const
+{
+	return SelectedUnit;
 }
 
 void UGameManagerSubsystem::Deinitialize()
@@ -51,6 +74,16 @@ ETurnBasedGameTurnMode UGameManagerSubsystem::GetCurrentTurnMode() const
 	 return CurrentTurnMode;
 }
 
+void UGameManagerSubsystem::SetSelecteType(ETurnBasedGameUnitSelecteType NewSelecteType)
+{
+	SelecteType = NewSelecteType;
+}
+
+ETurnBasedGameUnitSelecteType UGameManagerSubsystem::GetSelecteType() const
+{
+	return SelecteType;
+}
+
 void UGameManagerSubsystem::ActivateTurnMode(ETurnBasedGameTurnMode TurnMode)
 {
 	switch (CurrentTurnMode)
@@ -69,7 +102,8 @@ void UGameManagerSubsystem::ActivateTurnMode(ETurnBasedGameTurnMode TurnMode)
 			if (IUnitStatusInterface* Status = Cast<IUnitStatusInterface>(Unit)) { Status->APRecovery(); }
 			if (ICombatInterface* Combet = Cast<ICombatInterface>(Unit)) { Combet->ApplySpecificity(); }
 		}
-
+		SetCurrentTurnMode(ETurnBasedGameTurnMode::PlayerTurn);
+		SetSelecteType(ETurnBasedGameUnitSelecteType::PlayerUnit);
 		break;
 	case ETurnBasedGameTurnMode::PlayerTurn:
 		Debug::Print(TEXT("PlayerTurn Activated!"), FColor::Green);

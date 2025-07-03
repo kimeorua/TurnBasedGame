@@ -39,18 +39,31 @@ public:
 #pragma region TurnMangement
 	UFUNCTION(BlueprintCallable)
 	void SetCurrentTurnMode(ETurnBasedGameTurnMode NewTurnMode);
+
 	UFUNCTION(BlueprintCallable, BlueprintPure)
 	ETurnBasedGameTurnMode GetCurrentTurnMode() const;
+
+	UFUNCTION(BlueprintCallable)
+	void SetSelecteType(ETurnBasedGameUnitSelecteType NewSelecteType);
+
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	ETurnBasedGameUnitSelecteType GetSelecteType() const;
 
 	UFUNCTION(BlueprintCallable)
 	void ActivateTurnMode(ETurnBasedGameTurnMode TurnMode);
 #pragma endregion
 
+#pragma region PlayerUI
+	void ShowUnitSkillUI(TArray<UTexture2D*>SkillCions);
+#pragma endregion
+
 	void OnPostWorldInit(UWorld* World, const UWorld::InitializationValues IVS);
 	virtual bool ShouldCreateSubsystem(UObject* Outer) const override { return GetClass() != StaticClass(); }
 
-private:
+	void SetSelectedUnit(ABaseUnit* Unit);
+	ABaseUnit* GetSelectedUnit() const;
 
+private:
 #pragma region Unit
 	UPROPERTY(EditAnywhere, Category = "Unit")
 	FUnitSets UnitSet;
@@ -82,9 +95,14 @@ private:
 #pragma region Turn
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Turn", meta = (AllowPrivateAccess = "true"))
 	ETurnBasedGameTurnMode CurrentTurnMode = ETurnBasedGameTurnMode::None;
-#pragma endregion
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Turn", meta = (AllowPrivateAccess = "true"))
+	ETurnBasedGameUnitSelecteType SelecteType;
+#pragma endregion
 
 	UPROPERTY()
 	APlayerPawn* PlayerPawn;
+
+	UPROPERTY()
+	ABaseUnit* SelectedUnit = nullptr;
 };

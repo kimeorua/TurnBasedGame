@@ -146,6 +146,12 @@ struct FSkillData
 	UPROPERTY(EditAnywhere)
 	UAnimMontage* SkillMontage;
 
+	UPROPERTY(EditAnywhere)
+	UTexture2D* SkillIcon;
+
+	UPROPERTY(EditAnywhere)
+	ETurnBasedGameSkillTarget SkillTarget = ETurnBasedGameSkillTarget::Self;
+
 	UPROPERTY(EditAnywhere, meta = (EditCondition = "Type == ETurnBasedGameSkillType::Buff"))
 	FBuffData Buff;
 

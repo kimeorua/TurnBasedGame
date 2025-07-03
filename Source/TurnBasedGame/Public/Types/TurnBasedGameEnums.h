@@ -59,12 +59,30 @@ UENUM(BlueprintType)
 enum class ETurnBasedGameBuffType : uint8
 {
 	Buff UMETA(DisplayName = "Buff"),
-	Debuff UMETA(DisplayName = "Debuff"),
+	Debuff UMETA(DisplayName = "Debuff")
 };
 
 UENUM(BlueprintType)
 enum class ETurnBasedGameSkillType : uint8
 {
 	Buff UMETA(DisplayName = "Buff"),
-	Attack UMETA(DisplayName = "Attack"),
+	Attack UMETA(DisplayName = "Attack")
+};
+
+UENUM(BlueprintType)
+enum class ETurnBasedGameSkillTarget : uint8
+{
+	Self UMETA(DisplayName = "Self"),
+	SinglePlayerUnit UMETA(DisplayName = "Single Player Unit"),
+	SingleEnemyUnit UMETA(DisplayName = "Single Enemy Unit"),
+	AllPlayerUnit UMETA(DisplayName = "All Player Unit"),
+	AllEnemyUnit UMETA(DisplayName = "All Enemy Unit")
+};
+
+UENUM(BlueprintType)
+enum class ETurnBasedGameUnitSelecteType : uint8
+{
+	TargetIsPlayerUnit,
+	TargetIsEnemyUnit,
+	PlayerUnit
 };

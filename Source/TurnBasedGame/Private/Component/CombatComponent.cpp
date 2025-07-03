@@ -88,8 +88,20 @@ float UCombatComponent::CalculateBufffiValue(const FBuffData& Buff)
 
 void UCombatComponent::ApplySpecificity()
 {
-	BuffMap.Add(Specificity.Attribute, Specificity);
-	ApplyBuff(Specificity);
+	for (FBuffData Buff : Specificity)
+	{
+		BuffMap.Add(Buff.Attribute, Buff);
+		ApplyBuff(Buff);
+	}
+}
+
+void UCombatComponent::GetAllSkillIcon(TArray<UTexture2D*>& AllSkillIcons)
+{
+	for (FSkillData SkillData : Skill)
+	{
+		if (IsValid(SkillData.SkillIcon)) { AllSkillIcons.Add(SkillData.SkillIcon); }
+		else { continue; }
+	}
 }
 
 void UCombatComponent::BeginPlay()
