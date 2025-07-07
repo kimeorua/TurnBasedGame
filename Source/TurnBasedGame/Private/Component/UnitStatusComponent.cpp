@@ -29,6 +29,18 @@ void UUnitStatusComponent::CalculateStatus(ETurnBasedGameEffectAttribute Attribu
 	CombetStatus.FindStat(Attribute) = UnitStatus.FindStat(Attribute) + Value;
 }
 
+void UUnitStatusComponent::HealHP(float Value)
+{
+	float NewHP = FMath::Clamp(UnitStatus.HP + Value, 0, UnitStatus.MaxHP);
+	UnitStatus.HP = NewHP;
+}
+
+void UUnitStatusComponent::APUp(float Value)
+{
+	float NewAP = FMath::Clamp(UnitStatus.AP + Value, 0, UnitStatus.MaxAP);
+	UnitStatus.AP = NewAP;
+}
+
 // Called when the game starts
 void UUnitStatusComponent::BeginPlay()
 {

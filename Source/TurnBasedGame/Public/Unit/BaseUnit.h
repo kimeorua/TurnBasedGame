@@ -45,6 +45,7 @@ public:
 	// ~Begin ICombatInterface
 	virtual UCombatComponent* GetCombatComponent() const override;
 	virtual void ApplySpecificity() override;
+	virtual void ActivateSkill(int SkillNum) override;
 	// ~End ICombatInterface
 
 private:

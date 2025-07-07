@@ -24,4 +24,5 @@ class TURNBASEDGAME_API ICombatInterface
 public:
 	virtual UCombatComponent* GetCombatComponent() const = 0;
 	virtual void ApplySpecificity() = 0;
+	virtual void ActivateSkill(int SkillNum) = 0;
 };

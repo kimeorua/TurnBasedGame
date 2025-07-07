@@ -22,6 +22,8 @@ public:
 
 	void GetAllSkillIcon(TArray<UTexture2D*>&AllSkillIcons);
 
+	FSkillData GetSkill(int SkillNum);
+
 protected:
 	virtual void BeginPlay() override;
 

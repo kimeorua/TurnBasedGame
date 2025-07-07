@@ -23,6 +23,8 @@ public:
 	FUnitStatus GetCombetStatus() const;
 
 	void CalculateStatus(ETurnBasedGameEffectAttribute Attribute, float Value);
+	void HealHP(float Value);
+	void APUp(float Value);
 
 protected:
 	// Called when the game starts

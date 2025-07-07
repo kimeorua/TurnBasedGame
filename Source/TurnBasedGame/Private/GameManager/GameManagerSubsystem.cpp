@@ -31,6 +31,15 @@ void UGameManagerSubsystem::ShowUnitSkillUI(const TArray<UTexture2D*> SkillCions
 	PlayerPawn->GetUIComponent()->OnShowSkillUI.Broadcast(SkillCions[0], SkillCions[1], SkillCions[2], SelectedUnit);
 }
 
+void UGameManagerSubsystem::PlayerUnitSkillActivate(ABaseUnit* PlayerUnit, int ActivateSkillNum)
+{
+	if (UnitSet.PlayerUnits.Contains(PlayerUnit))
+	{
+		if (ICombatInterface* Combet = Cast<ICombatInterface>(PlayerUnit)) { Combet->ActivateSkill(ActivateSkillNum); }
+	}
+	else { return; }
+}
+
 void UGameManagerSubsystem::OnPostWorldInit(UWorld* World, const UWorld::InitializationValues IVS)
 {
 	if (!World || !World->IsGameWorld()) { return; }
@@ -74,16 +83,6 @@ ETurnBasedGameTurnMode UGameManagerSubsystem::GetCurrentTurnMode() const
 	 return CurrentTurnMode;
 }
 
-void UGameManagerSubsystem::SetSelecteType(ETurnBasedGameUnitSelecteType NewSelecteType)
-{
-	SelecteType = NewSelecteType;
-}
-
-ETurnBasedGameUnitSelecteType UGameManagerSubsystem::GetSelecteType() const
-{
-	return SelecteType;
-}
-
 void UGameManagerSubsystem::ActivateTurnMode(ETurnBasedGameTurnMode TurnMode)
 {
 	switch (CurrentTurnMode)
@@ -103,10 +102,8 @@ void UGameManagerSubsystem::ActivateTurnMode(ETurnBasedGameTurnMode TurnMode)
 			if (ICombatInterface* Combet = Cast<ICombatInterface>(Unit)) { Combet->ApplySpecificity(); }
 		}
 		SetCurrentTurnMode(ETurnBasedGameTurnMode::PlayerTurn);
-		SetSelecteType(ETurnBasedGameUnitSelecteType::PlayerUnit);
 		break;
 	case ETurnBasedGameTurnMode::PlayerTurn:
-		Debug::Print(TEXT("PlayerTurn Activated!"), FColor::Green);
 		break;
 	case ETurnBasedGameTurnMode::EnemyTurn:
 		Debug::Print(TEXT("EnemyTurn Activated!"), FColor::Green);

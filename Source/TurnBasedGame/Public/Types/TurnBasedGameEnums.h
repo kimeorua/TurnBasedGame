@@ -78,11 +78,3 @@ enum class ETurnBasedGameSkillTarget : uint8
 	AllPlayerUnit UMETA(DisplayName = "All Player Unit"),
 	AllEnemyUnit UMETA(DisplayName = "All Enemy Unit")
 };
-
-UENUM(BlueprintType)
-enum class ETurnBasedGameUnitSelecteType : uint8
-{
-	TargetIsPlayerUnit,
-	TargetIsEnemyUnit,
-	PlayerUnit
-};

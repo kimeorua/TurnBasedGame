@@ -44,17 +44,16 @@ public:
 	ETurnBasedGameTurnMode GetCurrentTurnMode() const;
 
 	UFUNCTION(BlueprintCallable)
-	void SetSelecteType(ETurnBasedGameUnitSelecteType NewSelecteType);
-
-	UFUNCTION(BlueprintCallable, BlueprintPure)
-	ETurnBasedGameUnitSelecteType GetSelecteType() const;
-
-	UFUNCTION(BlueprintCallable)
 	void ActivateTurnMode(ETurnBasedGameTurnMode TurnMode);
 #pragma endregion
 
 #pragma region PlayerUI
 	void ShowUnitSkillUI(TArray<UTexture2D*>SkillCions);
+#pragma endregion
+
+#pragma region Unit Action
+	UFUNCTION(BlueprintCallable)
+	void PlayerUnitSkillActivate(ABaseUnit* PlayerUnit, int ActivateSkillNum);
 #pragma endregion
 
 	void OnPostWorldInit(UWorld* World, const UWorld::InitializationValues IVS);
@@ -95,9 +94,6 @@ private:
 #pragma region Turn
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Turn", meta = (AllowPrivateAccess = "true"))
 	ETurnBasedGameTurnMode CurrentTurnMode = ETurnBasedGameTurnMode::None;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Turn", meta = (AllowPrivateAccess = "true"))
-	ETurnBasedGameUnitSelecteType SelecteType;
 #pragma endregion
 
 	UPROPERTY()

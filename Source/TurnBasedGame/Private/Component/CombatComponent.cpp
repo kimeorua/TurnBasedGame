@@ -5,6 +5,8 @@
 #include "Unit/BaseUnit.h"
 #include "Component/UnitStatusComponent.h"
 #include "Interface/UnitStatusInterface.h"
+#include "Interface/UnitUIInterface.h"
+#include "Component/UnitUIComponent.h"
 
 #include "DebugHelper.h"
 
@@ -25,6 +27,7 @@ void UCombatComponent::ApplyBuff(const FBuffData& Buff)
 	case ETurnBasedGameEffectAttribute::ATK :
 		if (IUnitStatusInterface* Status = Cast<IUnitStatusInterface>(OwnerUnit))
 		{
+			BuffMap.Add(Buff.Attribute, Buff);
 			Increase = Status->GetUnitStatusComponent()->GetUnitStatus().ATK * CalculateBufffiValue(Buff);
 			Status->GetUnitStatusComponent()->CalculateStatus(ETurnBasedGameEffectAttribute::ATK, Increase);
 		}
@@ -32,6 +35,7 @@ void UCombatComponent::ApplyBuff(const FBuffData& Buff)
 	case ETurnBasedGameEffectAttribute::DEF:
 		if (IUnitStatusInterface* Status = Cast<IUnitStatusInterface>(OwnerUnit))
 		{
+			BuffMap.Add(Buff.Attribute, Buff);
 			Increase = Status->GetUnitStatusComponent()->GetUnitStatus().DEF * CalculateBufffiValue(Buff);
 			Status->GetUnitStatusComponent()->CalculateStatus(ETurnBasedGameEffectAttribute::DEF, Increase);
 		}
@@ -39,6 +43,7 @@ void UCombatComponent::ApplyBuff(const FBuffData& Buff)
 	case ETurnBasedGameEffectAttribute::CriticalChance:
 		if (IUnitStatusInterface* Status = Cast<IUnitStatusInterface>(OwnerUnit))
 		{
+			BuffMap.Add(Buff.Attribute, Buff);
 			Increase = Status->GetUnitStatusComponent()->GetUnitStatus().CriticalChance * CalculateBufffiValue(Buff);
 			Status->GetUnitStatusComponent()->CalculateStatus(ETurnBasedGameEffectAttribute::CriticalChance, Increase);
 		}
@@ -46,6 +51,7 @@ void UCombatComponent::ApplyBuff(const FBuffData& Buff)
 	case ETurnBasedGameEffectAttribute::Resilience:
 		if (IUnitStatusInterface* Status = Cast<IUnitStatusInterface>(OwnerUnit))
 		{
+			BuffMap.Add(Buff.Attribute, Buff);
 			Increase = Status->GetUnitStatusComponent()->GetUnitStatus().Resilience * CalculateBufffiValue(Buff);
 			Status->GetUnitStatusComponent()->CalculateStatus(ETurnBasedGameEffectAttribute::Resilience, Increase);
 		}
@@ -53,16 +59,36 @@ void UCombatComponent::ApplyBuff(const FBuffData& Buff)
 	case ETurnBasedGameEffectAttribute::Speed:
 		if (IUnitStatusInterface* Status = Cast<IUnitStatusInterface>(OwnerUnit))
 		{
+			BuffMap.Add(Buff.Attribute, Buff);
 			Increase = Status->GetUnitStatusComponent()->GetUnitStatus().Speed * CalculateBufffiValue(Buff);
 			Status->GetUnitStatusComponent()->CalculateStatus(ETurnBasedGameEffectAttribute::Speed, Increase);
 		}
 		break;
 	// 윈복 X
 	case ETurnBasedGameEffectAttribute::HP:
+		if (IUnitStatusInterface* Status = Cast<IUnitStatusInterface>(OwnerUnit))
+		{
+			Increase = Status->GetUnitStatusComponent()->GetUnitStatus().MaxHP * Buff.Value;
+			Status->GetUnitStatusComponent()->HealHP(Increase);
+
+			if (IUnitUIInterface* UI = Cast<IUnitUIInterface>(OwnerUnit))
+			{
+				UI->GetUnitUIComponent()->OnChangeHP.Broadcast(Status->GetUnitStatusComponent()->GetUnitStatus().MaxHP, Status->GetUnitStatusComponent()->GetUnitStatus().HP, Status->GetUnitStatusComponent()->GetUnitStatus().HP / Status->GetUnitStatusComponent()->GetUnitStatus().MaxHP);
+			}
+		}
 		break;
 	case ETurnBasedGameEffectAttribute::AP:
+		if (IUnitStatusInterface* Status = Cast<IUnitStatusInterface>(OwnerUnit)) 
+		{ 
+			Status->GetUnitStatusComponent()->APUp(Buff.Value); 
+			if (IUnitUIInterface* UI = Cast<IUnitUIInterface>(OwnerUnit))
+			{
+				UI->GetUnitUIComponent()->OnChangeAP.Broadcast(Status->GetUnitStatusComponent()->GetUnitStatus().MaxAP, Status->GetUnitStatusComponent()->GetUnitStatus().AP, Status->GetUnitStatusComponent()->GetUnitStatus().AP / Status->GetUnitStatusComponent()->GetUnitStatus().MaxAP);
+			}
+		}
 		break;
 	case ETurnBasedGameEffectAttribute::Taunt:
+		// 도발 구현
 		break;
 	default:
 		break;
@@ -90,7 +116,6 @@ void UCombatComponent::ApplySpecificity()
 {
 	for (FBuffData Buff : Specificity)
 	{
-		BuffMap.Add(Buff.Attribute, Buff);
 		ApplyBuff(Buff);
 	}
 }
@@ -102,6 +127,15 @@ void UCombatComponent::GetAllSkillIcon(TArray<UTexture2D*>& AllSkillIcons)
 		if (IsValid(SkillData.SkillIcon)) { AllSkillIcons.Add(SkillData.SkillIcon); }
 		else { continue; }
 	}
+}
+
+FSkillData UCombatComponent::GetSkill(int SkillNum)
+{
+	if (SkillNum >= 0 && SkillNum < Skill.Num())
+	{
+		return Skill[SkillNum]; 
+	}
+	else { return FSkillData(); }
 }
 
 void UCombatComponent::BeginPlay()

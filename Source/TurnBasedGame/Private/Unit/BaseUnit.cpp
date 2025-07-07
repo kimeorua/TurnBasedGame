@@ -45,29 +45,16 @@ void ABaseUnit::UnitClick(AActor* TouchedActor, FKey ButtonPressed)
 	UGameManagerSubsystem* GM = GetGameInstance()->GetSubsystem<UGameManagerSubsystem>();
 	if (IsValid(GM))
 	{
-		switch (GM->GetSelecteType())
+		if (TeamType == EUnitTeamType::Player)
 		{
-		case ETurnBasedGameUnitSelecteType::PlayerUnit:
-			if (TeamType == EUnitTeamType::Player)
-			{
-				TArray<UTexture2D*>SkillIcons;
-				GetCombatComponent()->GetAllSkillIcon(SkillIcons);
+			TArray<UTexture2D*>SkillIcons;
+			GetCombatComponent()->GetAllSkillIcon(SkillIcons);
 
-				GM->SetSelectedUnit(this);
-				GM->ShowUnitSkillUI(SkillIcons);
-				return;
-			}
-			else { return; }
-
-		case ETurnBasedGameUnitSelecteType::TargetIsPlayerUnit:
-			//TODO 스킬 선택 후 타겟이 플레이어 유닛 일 경우 작동
-			break;
-		case ETurnBasedGameUnitSelecteType::TargetIsEnemyUnit:
-			// TOTO 스킬 선택 후 타겟이 적 유닛 일 경우 작동
-			break;
-		default:
-			break;
+			GM->SetSelectedUnit(this);
+			GM->ShowUnitSkillUI(SkillIcons);
+			return;
 		}
+		else { return; }
 	}
 	else { return; }
 }
@@ -96,6 +83,32 @@ UCombatComponent* ABaseUnit::GetCombatComponent() const
 void ABaseUnit::ApplySpecificity()
 {
 	GetCombatComponent()->ApplySpecificity();
+}
+
+void ABaseUnit::ActivateSkill(int SkillNum)
+{
+	FSkillData UsedSkill = GetCombatComponent()->GetSkill(SkillNum);
+
+	switch (UsedSkill.SkillTarget)
+	{
+	case ETurnBasedGameSkillTarget::Self:
+		// TODO 스스로 에게 적용되는 스킬 작동
+		break;
+	case ETurnBasedGameSkillTarget::SinglePlayerUnit:
+		// TODO 플레이어 Unit 선택 창 출력 -> 버튼 클릭하면 해당 객체에게 효과 적용
+		break;
+	case ETurnBasedGameSkillTarget::SingleEnemyUnit:
+		// TODO 적 Unit 선택 창 출력 -> 버튼 클릭하면 해당 객체에게 효과 적용
+		break;
+	case ETurnBasedGameSkillTarget::AllEnemyUnit:
+		// TODO 모든 적 객체에게 적용
+		break;
+	case ETurnBasedGameSkillTarget::AllPlayerUnit:
+		// TODO 모든 플레이어 객체 에게 적용
+		break;
+	default:
+		break;
+	}
 }
 
 void ABaseUnit::WeaponSpawnAndAttach()
