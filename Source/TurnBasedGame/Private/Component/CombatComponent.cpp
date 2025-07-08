@@ -93,6 +93,8 @@ void UCombatComponent::ApplyBuff(const FBuffData& Buff)
 	default:
 		break;
 	}
+
+	Debug::Print("Buff Count", BuffMap.Num());
 }
 
 float UCombatComponent::CalculateBufffiValue(const FBuffData& Buff)
@@ -105,7 +107,8 @@ float UCombatComponent::CalculateBufffiValue(const FBuffData& Buff)
 		BuffMap.MultiFind(Buff.Attribute, BuffDataArr);
 		for (FBuffData Data : BuffDataArr)
 		{
-			if (Data.Type == ETurnBasedGameBuffType::Buff) { TempValue += Buff.Value; }
+			if (Data.Type == ETurnBasedGameBuffType::Buff) { TempValue += Data.Value; }
+
 			else { TempValue -= Buff.Value; }
 		}
 	}
@@ -136,6 +139,21 @@ FSkillData UCombatComponent::GetSkill(int SkillNum)
 		return Skill[SkillNum]; 
 	}
 	else { return FSkillData(); }
+}
+
+void UCombatComponent::ActivateSkill(const FSkillData& SkillData)
+{
+	if (IUnitStatusInterface* Status = Cast<IUnitStatusInterface>(OwnerUnit))
+	{
+		Status->GetUnitStatusComponent()->APUp((SkillData.APCost) * -1);
+		if (IUnitUIInterface* UI = Cast<IUnitUIInterface>(OwnerUnit))
+		{
+			UI->GetUnitUIComponent()->OnChangeAP.Broadcast(Status->GetUnitStatusComponent()->GetUnitStatus().MaxAP, Status->GetUnitStatusComponent()->GetUnitStatus().AP, Status->GetUnitStatusComponent()->GetUnitStatus().AP / Status->GetUnitStatusComponent()->GetUnitStatus().MaxAP);
+		}
+		ApplyBuff(SkillData.Buff);
+
+		bUsedSkill = true;
+	}
 }
 
 void UCombatComponent::BeginPlay()

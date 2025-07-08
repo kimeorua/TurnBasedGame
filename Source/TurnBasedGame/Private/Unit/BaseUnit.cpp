@@ -45,7 +45,7 @@ void ABaseUnit::UnitClick(AActor* TouchedActor, FKey ButtonPressed)
 	UGameManagerSubsystem* GM = GetGameInstance()->GetSubsystem<UGameManagerSubsystem>();
 	if (IsValid(GM))
 	{
-		if (TeamType == EUnitTeamType::Player)
+		if (TeamType == EUnitTeamType::Player && !(GetCombatComponent()->GetSkillUsed()))
 		{
 			TArray<UTexture2D*>SkillIcons;
 			GetCombatComponent()->GetAllSkillIcon(SkillIcons);
@@ -92,7 +92,20 @@ void ABaseUnit::ActivateSkill(int SkillNum)
 	switch (UsedSkill.SkillTarget)
 	{
 	case ETurnBasedGameSkillTarget::Self:
-		// TODO 스스로 에게 적용되는 스킬 작동
+		
+		if (UsedSkill.Type == ETurnBasedGameSkillType::Attack) { return; }
+
+		if (GetUnitStatusComponent()->GetUnitStatus().AP < UsedSkill.APCost) { return; }
+
+		if (IsValid(UsedSkill.SkillMontage))
+		{
+			PlayAnimMontage(UsedSkill.SkillMontage);
+		}
+		else
+		{
+			Debug::Print("AnimMontage Is Not Vaild");
+		}
+		GetCombatComponent()->ActivateSkill(UsedSkill);
 		break;
 	case ETurnBasedGameSkillTarget::SinglePlayerUnit:
 		// TODO 플레이어 Unit 선택 창 출력 -> 버튼 클릭하면 해당 객체에게 효과 적용

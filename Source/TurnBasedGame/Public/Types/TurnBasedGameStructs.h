@@ -152,6 +152,9 @@ struct FSkillData
 	UPROPERTY(EditAnywhere)
 	ETurnBasedGameSkillTarget SkillTarget = ETurnBasedGameSkillTarget::Self;
 
+	UPROPERTY(EditAnywhere)
+	float APCost = 0.0f;
+
 	UPROPERTY(EditAnywhere, meta = (EditCondition = "Type == ETurnBasedGameSkillType::Buff"))
 	FBuffData Buff;
 
