@@ -24,7 +24,7 @@ public:
 
 	FSkillData GetSkill(int SkillNum);
 
-	void ActivateSkill(const FSkillData& SkillData);
+	void ActivateSkill(const FSkillData& SkillData, ABaseUnit* TargetUnit);
 
 	FORCEINLINE bool GetSkillUsed() const { return bUsedSkill; }
 
@@ -46,6 +46,6 @@ private:
 
 	TMultiMap<ETurnBasedGameEffectAttribute, FBuffData>BuffMap;
 
-	void ApplyBuff(const FBuffData& Buff);
+	void ApplyBuff(const FBuffData& Buff, ABaseUnit* TargetUnit);
 	float CalculateBufffiValue(const FBuffData& Buff);
 };

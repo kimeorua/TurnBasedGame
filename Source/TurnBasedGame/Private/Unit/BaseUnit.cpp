@@ -97,15 +97,10 @@ void ABaseUnit::ActivateSkill(int SkillNum)
 
 		if (GetUnitStatusComponent()->GetUnitStatus().AP < UsedSkill.APCost) { return; }
 
-		if (IsValid(UsedSkill.SkillMontage))
-		{
-			PlayAnimMontage(UsedSkill.SkillMontage);
-		}
-		else
-		{
-			Debug::Print("AnimMontage Is Not Vaild");
-		}
-		GetCombatComponent()->ActivateSkill(UsedSkill);
+		if (IsValid(UsedSkill.SkillMontage)) { PlayAnimMontage(UsedSkill.SkillMontage); }
+		else { Debug::Print("AnimMontage Is Not Vaild"); }
+
+		GetCombatComponent()->ActivateSkill(UsedSkill, this);
 		break;
 	case ETurnBasedGameSkillTarget::SinglePlayerUnit:
 		// TODO 플레이어 Unit 선택 창 출력 -> 버튼 클릭하면 해당 객체에게 효과 적용
