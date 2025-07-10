@@ -24,7 +24,7 @@ public:
 
 	FSkillData GetSkill(int SkillNum);
 
-	void ActivateSkill(const FSkillData& SkillData, ABaseUnit* TargetUnit);
+	void ActivateSkill_Buff(const FSkillData& SkillData, ABaseUnit* TargetUnit);
 
 	FORCEINLINE bool GetSkillUsed() const { return bUsedSkill; }
 

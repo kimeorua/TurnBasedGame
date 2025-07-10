@@ -9,6 +9,7 @@
 #include "TurnBasedGameMode.h"
 #include "Interface/CombatInterface.h"
 #include "Interface/UnitStatusInterface.h"
+#include "Component/CombatComponent.h"
 
 #include "DebugHelper.h"
 
@@ -31,6 +32,18 @@ void UGameManagerSubsystem::ShowUnitSkillUI(const TArray<UTexture2D*> SkillCions
 	PlayerPawn->GetUIComponent()->OnShowSkillUI.Broadcast(SkillCions[0], SkillCions[1], SkillCions[2], SelectedUnit);
 }
 
+void UGameManagerSubsystem::ShowPlayerUnitSelect()
+{
+	if (!PlayerPawn)
+	{
+		APlayerController* PC = GetWorld()->GetFirstPlayerController();
+		PlayerPawn = Cast<APlayerPawn>(PC->GetPawn());
+	}
+
+	UTurnBasedGameFunctionLibrary::ToggleInputMode(GetWorld(), ETurnBasedGameInputMode::UIOnly);
+	PlayerPawn->GetUIComponent()->OnShowPlayerUnitSelectUI.Broadcast(PlayerUnitIcons);
+}
+
 void UGameManagerSubsystem::PlayerUnitSkillActivate(ABaseUnit* PlayerUnit, int ActivateSkillNum)
 {
 	if (UnitSet.PlayerUnits.Contains(PlayerUnit))
@@ -38,6 +51,36 @@ void UGameManagerSubsystem::PlayerUnitSkillActivate(ABaseUnit* PlayerUnit, int A
 		if (ICombatInterface* Combet = Cast<ICombatInterface>(PlayerUnit)) { Combet->ActivateSkill(ActivateSkillNum); }
 	}
 	else { return; }
+}
+
+void UGameManagerSubsystem::ApplyBuffToTarget(bool IsPlayer, int index)
+{
+	if (IsPlayer)
+	{
+		if (ABaseUnit* Target = UnitSet.PlayerUnits[index])
+		{
+			SkillUsedUnit->GetCombatComponent()->ActivateSkill_Buff(SavedData, Target);
+
+			if (IsValid(SavedData.SkillMontage)) 
+			{ 
+				SkillUsedUnit->PlayAnimMontage(SavedData.SkillMontage); 
+
+				if (SavedData.Buff.Type == ETurnBasedGameBuffType::Buff) { Target->PlayReactionAnim(true); }
+				else { Target->PlayReactionAnim(false); }
+			}
+		}
+	}
+}
+
+ETurnBasedGameEffectAttribute UGameManagerSubsystem::GetBuffType() const
+{
+	return SavedData.Buff.Attribute;
+}
+
+void UGameManagerSubsystem::SaveSkill(ABaseUnit* SkillUnit, FSkillData Data)
+{
+	SkillUsedUnit = SkillUnit;
+	SavedData = Data;
 }
 
 void UGameManagerSubsystem::OnPostWorldInit(UWorld* World, const UWorld::InitializationValues IVS)
@@ -66,9 +109,11 @@ void UGameManagerSubsystem::Deinitialize()
 
 }
 
-void UGameManagerSubsystem::AddUnit(EUnitTeamType TeamType, ABaseUnit* Unit)
+void UGameManagerSubsystem::AddUnit(EUnitTeamType TeamType, ABaseUnit* Unit, UTexture2D* UnitIcon)
 {
 	UnitSet.AddUnit(TeamType, Unit);
+	if (TeamType == EUnitTeamType::Player) { PlayerUnitIcons.Add(UnitIcon); }
+	//else if (TeamType == EUnitTeamType::Enemy) {  }
 }
 
 void UGameManagerSubsystem::SetCurrentTurnMode(ETurnBasedGameTurnMode NewTurnMode)

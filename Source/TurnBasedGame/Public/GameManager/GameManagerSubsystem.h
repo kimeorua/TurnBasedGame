@@ -32,7 +32,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SpawnEnemyUnit();
 
-	void AddUnit(EUnitTeamType TeamType, ABaseUnit* Unit);
+	void AddUnit(EUnitTeamType TeamType, ABaseUnit* Unit, UTexture2D* UnitIcon);
 
 #pragma endregion
 
@@ -49,11 +49,21 @@ public:
 
 #pragma region PlayerUI
 	void ShowUnitSkillUI(TArray<UTexture2D*>SkillCions);
+	void ShowPlayerUnitSelect();
 #pragma endregion
 
 #pragma region Unit Action
 	UFUNCTION(BlueprintCallable)
 	void PlayerUnitSkillActivate(ABaseUnit* PlayerUnit, int ActivateSkillNum);
+
+	UFUNCTION(BlueprintCallable)
+	void ApplyBuffToTarget(bool IsPlayer, int index);
+
+	UFUNCTION(BlueprintCallable)
+	ETurnBasedGameEffectAttribute GetBuffType() const;
+
+	void SaveSkill(ABaseUnit* SkillUsedUnit, FSkillData Data);
+
 #pragma endregion
 
 	void OnPostWorldInit(UWorld* World, const UWorld::InitializationValues IVS);
@@ -66,6 +76,9 @@ private:
 #pragma region Unit
 	UPROPERTY(EditAnywhere, Category = "Unit")
 	FUnitSets UnitSet;
+
+	TArray<UTexture2D*>PlayerUnitIcons;
+	TArray<UTexture2D*>EnemyUnitIcons;
 #pragma endregion
 
 #pragma region UnitSpawn
@@ -101,4 +114,10 @@ private:
 
 	UPROPERTY()
 	ABaseUnit* SelectedUnit = nullptr;
+
+	UPROPERTY()
+	FSkillData SavedData;
+
+	UPROPERTY()
+	ABaseUnit* SkillUsedUnit = nullptr;
 };

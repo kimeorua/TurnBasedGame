@@ -10,6 +10,7 @@ class UTexture2D;
 class ABaseUnit;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FOnShowSkillUI, UTexture2D*, SkillIcon1, UTexture2D*, SkillIcon2, UTexture2D*, SkillIcon3, ABaseUnit*, SkillUsingUnit);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnShowPlayerUnitSelectUI, const TArray<UTexture2D*>&, Icons);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class TURNBASEDGAME_API UUIComponent : public UActorComponent
@@ -19,4 +20,7 @@ class TURNBASEDGAME_API UUIComponent : public UActorComponent
 public:
 	UPROPERTY(BlueprintAssignable)
 	FOnShowSkillUI OnShowSkillUI;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnShowPlayerUnitSelectUI OnShowPlayerUnitSelectUI;
 };

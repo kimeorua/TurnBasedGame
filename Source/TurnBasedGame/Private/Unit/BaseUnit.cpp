@@ -70,6 +70,15 @@ void ABaseUnit::APRecovery()
 	UnitUIComponent->OnChangeAP.Broadcast(UnitStatusComponent->GetUnitStatus().MaxAP, UnitStatusComponent->GetUnitStatus().AP, UnitStatusComponent->GetUnitStatus().AP / UnitStatusComponent->GetUnitStatus().MaxAP);
 }
 
+void ABaseUnit::PlayReactionAnim(bool IsBuff)
+{
+	if (IsValid(DebuffReaction) && IsValid(BuffReaction))
+	{
+		if (IsBuff) { PlayAnimMontage(BuffReaction); }
+		else { PlayAnimMontage(DebuffReaction); }
+	}
+}
+
 UUnitUIComponent* ABaseUnit::GetUnitUIComponent() const
 {
 	return UnitUIComponent;
@@ -89,6 +98,8 @@ void ABaseUnit::ActivateSkill(int SkillNum)
 {
 	FSkillData UsedSkill = GetCombatComponent()->GetSkill(SkillNum);
 
+	UGameManagerSubsystem* GM = GetGameInstance()->GetSubsystem<UGameManagerSubsystem>();
+
 	switch (UsedSkill.SkillTarget)
 	{
 	case ETurnBasedGameSkillTarget::Self:
@@ -100,10 +111,18 @@ void ABaseUnit::ActivateSkill(int SkillNum)
 		if (IsValid(UsedSkill.SkillMontage)) { PlayAnimMontage(UsedSkill.SkillMontage); }
 		else { Debug::Print("AnimMontage Is Not Vaild"); }
 
-		GetCombatComponent()->ActivateSkill(UsedSkill, this);
+		GetCombatComponent()->ActivateSkill_Buff(UsedSkill, this);
 		break;
 	case ETurnBasedGameSkillTarget::SinglePlayerUnit:
-		// TODO 플레이어 Unit 선택 창 출력 -> 버튼 클릭하면 해당 객체에게 효과 적용
+
+		if (UsedSkill.Type == ETurnBasedGameSkillType::Buff)
+		{
+			if (IsValid(GM))
+			{
+				GM->SaveSkill(this, UsedSkill);
+				GM->ShowPlayerUnitSelect();
+			}
+		}
 		break;
 	case ETurnBasedGameSkillTarget::SingleEnemyUnit:
 		// TODO 적 Unit 선택 창 출력 -> 버튼 클릭하면 해당 객체에게 효과 적용
@@ -160,7 +179,7 @@ void ABaseUnit::BeginPlay()
 	UGameManagerSubsystem* GM = GetGameInstance()->GetSubsystem<UGameManagerSubsystem>();
 	if (GM)
 	{
-		GM->AddUnit(TeamType, this);
+		GM->AddUnit(TeamType, this, UnitIcons);
 	}
 	OnClicked.AddDynamic(this, &ABaseUnit::UnitClick);
 	GetCapsuleComponent()->OnBeginCursorOver.AddDynamic(this, &ABaseUnit::UnitMouseOver);

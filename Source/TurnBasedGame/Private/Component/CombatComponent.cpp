@@ -93,7 +93,7 @@ void UCombatComponent::ApplyBuff(const FBuffData& Buff, ABaseUnit* TargetUnit)
 	default:
 		break;
 	}
-
+	Debug::Print("Buff Target" + TargetUnit->GetActorNameOrLabel());
 	Debug::Print("Buff Count", BuffMap.Num());
 }
 
@@ -141,7 +141,7 @@ FSkillData UCombatComponent::GetSkill(int SkillNum)
 	else { return FSkillData(); }
 }
 
-void UCombatComponent::ActivateSkill(const FSkillData& SkillData, ABaseUnit* TargetUnit)
+void UCombatComponent::ActivateSkill_Buff(const FSkillData& SkillData, ABaseUnit* TargetUnit)
 {
 	if (IUnitStatusInterface* Status = Cast<IUnitStatusInterface>(OwnerUnit))
 	{

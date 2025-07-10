@@ -48,6 +48,8 @@ public:
 	virtual void ActivateSkill(int SkillNum) override;
 	// ~End ICombatInterface
 
+	void PlayReactionAnim(bool IsBuff);
+
 private:
 
 #pragma region Component
@@ -68,6 +70,12 @@ private:
 
 	virtual void APRecovery() override;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Unit|Animation", meta = (AllowPrivateAccess = "true"))
+	UAnimMontage* BuffReaction = nullptr;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Unit|Animation", meta = (AllowPrivateAccess = "true"))
+	UAnimMontage* DebuffReaction = nullptr;
+
 #pragma endregion
 
 #pragma region Unit Weapon
@@ -80,6 +88,11 @@ private:
 
 	void WeaponSpawnAndAttach();
 
+#pragma endregion
+
+#pragma region Unit Icon
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Icon", meta = (AllowPrivateAccess = "true"))
+	UTexture2D* UnitIcons;
 #pragma endregion
 
 protected:
