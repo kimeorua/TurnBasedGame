@@ -44,6 +44,18 @@ void UGameManagerSubsystem::ShowPlayerUnitSelect()
 	PlayerPawn->GetUIComponent()->OnShowPlayerUnitSelectUI.Broadcast(PlayerUnitIcons);
 }
 
+void UGameManagerSubsystem::ShowEnemyUnitSelect()
+{
+	if (!PlayerPawn)
+	{
+		APlayerController* PC = GetWorld()->GetFirstPlayerController();
+		PlayerPawn = Cast<APlayerPawn>(PC->GetPawn());
+	}
+
+	UTurnBasedGameFunctionLibrary::ToggleInputMode(GetWorld(), ETurnBasedGameInputMode::UIOnly);
+	PlayerPawn->GetUIComponent()->OnShowEnemyUnitSelectUI.Broadcast(EnemyUnitIcons);
+}
+
 void UGameManagerSubsystem::PlayerUnitSkillActivate(ABaseUnit* PlayerUnit, int ActivateSkillNum)
 {
 	if (UnitSet.PlayerUnits.Contains(PlayerUnit))
@@ -64,6 +76,21 @@ void UGameManagerSubsystem::ApplyBuffToTarget(bool IsPlayer, int index)
 			if (IsValid(SavedData.SkillMontage)) 
 			{ 
 				SkillUsedUnit->PlayAnimMontage(SavedData.SkillMontage); 
+
+				if (SavedData.Buff.Type == ETurnBasedGameBuffType::Buff) { Target->PlayReactionAnim(true); }
+				else { Target->PlayReactionAnim(false); }
+			}
+		}
+	}
+	else
+	{
+		if (ABaseUnit* Target = UnitSet.EnemyUnits[index])
+		{
+			SkillUsedUnit->GetCombatComponent()->ActivateSkill_Buff(SavedData, Target);
+
+			if (IsValid(SavedData.SkillMontage))
+			{
+				SkillUsedUnit->PlayAnimMontage(SavedData.SkillMontage);
 
 				if (SavedData.Buff.Type == ETurnBasedGameBuffType::Buff) { Target->PlayReactionAnim(true); }
 				else { Target->PlayReactionAnim(false); }
@@ -113,7 +140,7 @@ void UGameManagerSubsystem::AddUnit(EUnitTeamType TeamType, ABaseUnit* Unit, UTe
 {
 	UnitSet.AddUnit(TeamType, Unit);
 	if (TeamType == EUnitTeamType::Player) { PlayerUnitIcons.Add(UnitIcon); }
-	//else if (TeamType == EUnitTeamType::Enemy) {  }
+	else if (TeamType == EUnitTeamType::Enemy) { EnemyUnitIcons.Add(UnitIcon); Debug::Print("Ho" + Unit->GetActorNameOrLabel()); }
 }
 
 void UGameManagerSubsystem::SetCurrentTurnMode(ETurnBasedGameTurnMode NewTurnMode)

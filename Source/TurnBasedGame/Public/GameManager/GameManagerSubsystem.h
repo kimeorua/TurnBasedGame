@@ -50,6 +50,7 @@ public:
 #pragma region PlayerUI
 	void ShowUnitSkillUI(TArray<UTexture2D*>SkillCions);
 	void ShowPlayerUnitSelect();
+	void ShowEnemyUnitSelect();
 #pragma endregion
 
 #pragma region Unit Action

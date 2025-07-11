@@ -125,7 +125,14 @@ void ABaseUnit::ActivateSkill(int SkillNum)
 		}
 		break;
 	case ETurnBasedGameSkillTarget::SingleEnemyUnit:
-		// TODO 적 Unit 선택 창 출력 -> 버튼 클릭하면 해당 객체에게 효과 적용
+		if (UsedSkill.Type == ETurnBasedGameSkillType::Buff)
+		{
+			if (IsValid(GM))
+			{
+				GM->SaveSkill(this, UsedSkill);
+				GM->ShowEnemyUnitSelect();
+			}
+		}
 		break;
 	case ETurnBasedGameSkillTarget::AllEnemyUnit:
 		// TODO 모든 적 객체에게 적용
