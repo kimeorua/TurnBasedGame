@@ -27,40 +27,39 @@ void UCombatComponent::ApplyBuff(const FBuffData& Buff, ABaseUnit* TargetUnit)
 	case ETurnBasedGameEffectAttribute::ATK :
 		if (IUnitStatusInterface* Status = Cast<IUnitStatusInterface>(TargetUnit))
 		{
-			BuffMap.Add(Buff.Attribute, Buff);
-			Increase = Status->GetUnitStatusComponent()->GetUnitStatus().ATK * CalculateBufffiValue(Buff);
+			Increase = Status->GetUnitStatusComponent()->GetUnitStatus().ATK * CalculateBufffiValue(ETurnBasedGameEffectAttribute::ATK);
 			Status->GetUnitStatusComponent()->CalculateStatus(ETurnBasedGameEffectAttribute::ATK, Increase);
 		}
 		break;
 	case ETurnBasedGameEffectAttribute::DEF:
 		if (IUnitStatusInterface* Status = Cast<IUnitStatusInterface>(TargetUnit))
 		{
-			BuffMap.Add(Buff.Attribute, Buff);
-			Increase = Status->GetUnitStatusComponent()->GetUnitStatus().DEF * CalculateBufffiValue(Buff);
+			//BuffMap.Add(Buff.Attribute, Buff);
+			Increase = Status->GetUnitStatusComponent()->GetUnitStatus().DEF * CalculateBufffiValue(ETurnBasedGameEffectAttribute::DEF);
 			Status->GetUnitStatusComponent()->CalculateStatus(ETurnBasedGameEffectAttribute::DEF, Increase);
 		}
 		break;
 	case ETurnBasedGameEffectAttribute::CriticalChance:
 		if (IUnitStatusInterface* Status = Cast<IUnitStatusInterface>(TargetUnit))
 		{
-			BuffMap.Add(Buff.Attribute, Buff);
-			Increase = Status->GetUnitStatusComponent()->GetUnitStatus().CriticalChance * CalculateBufffiValue(Buff);
+			//BuffMap.Add(Buff.Attribute, Buff);
+			Increase = Status->GetUnitStatusComponent()->GetUnitStatus().CriticalChance * CalculateBufffiValue(ETurnBasedGameEffectAttribute::CriticalChance);
 			Status->GetUnitStatusComponent()->CalculateStatus(ETurnBasedGameEffectAttribute::CriticalChance, Increase);
 		}
 		break;
 	case ETurnBasedGameEffectAttribute::Resilience:
 		if (IUnitStatusInterface* Status = Cast<IUnitStatusInterface>(TargetUnit))
 		{
-			BuffMap.Add(Buff.Attribute, Buff);
-			Increase = Status->GetUnitStatusComponent()->GetUnitStatus().Resilience * CalculateBufffiValue(Buff);
+			//BuffMap.Add(Buff.Attribute, Buff);
+			Increase = Status->GetUnitStatusComponent()->GetUnitStatus().Resilience * CalculateBufffiValue(ETurnBasedGameEffectAttribute::Resilience);
 			Status->GetUnitStatusComponent()->CalculateStatus(ETurnBasedGameEffectAttribute::Resilience, Increase);
 		}
 		break;
 	case ETurnBasedGameEffectAttribute::Speed:
 		if (IUnitStatusInterface* Status = Cast<IUnitStatusInterface>(TargetUnit))
 		{
-			BuffMap.Add(Buff.Attribute, Buff);
-			Increase = Status->GetUnitStatusComponent()->GetUnitStatus().Speed * CalculateBufffiValue(Buff);
+			//BuffMap.Add(Buff.Attribute, Buff);
+			Increase = Status->GetUnitStatusComponent()->GetUnitStatus().Speed * CalculateBufffiValue(ETurnBasedGameEffectAttribute::Speed);
 			Status->GetUnitStatusComponent()->CalculateStatus(ETurnBasedGameEffectAttribute::Speed, Increase);
 		}
 		break;
@@ -93,23 +92,23 @@ void UCombatComponent::ApplyBuff(const FBuffData& Buff, ABaseUnit* TargetUnit)
 	default:
 		break;
 	}
-	Debug::Print("Buff Target" + TargetUnit->GetActorNameOrLabel());
-	Debug::Print("Buff Count", BuffMap.Num());
+	//Debug::Print("Buff Target" + TargetUnit->GetActorNameOrLabel());
+	//Debug::Print("Buff Count", BuffMap.Num());
 }
 
-float UCombatComponent::CalculateBufffiValue(const FBuffData& Buff)
+float UCombatComponent::CalculateBufffiValue(ETurnBasedGameEffectAttribute Attribute)
 {
 	TArray<FBuffData>BuffDataArr;
 	float TempValue = 0.0f;
 
-	if (BuffMap.Contains(Buff.Attribute))
+	if (BuffMap.Contains(Attribute))
 	{
-		BuffMap.MultiFind(Buff.Attribute, BuffDataArr);
+		BuffMap.MultiFind(Attribute, BuffDataArr);
 		for (FBuffData Data : BuffDataArr)
 		{
 			if (Data.Type == ETurnBasedGameBuffType::Buff) { TempValue += Data.Value; }
 
-			else { TempValue -= Buff.Value; }
+			else { TempValue -= Data.Value; }
 		}
 	}
 	return TempValue;
@@ -119,6 +118,7 @@ void UCombatComponent::ApplySpecificity()
 {
 	for (FBuffData Buff : Specificity)
 	{
+		BuffMap.Add(Buff.Attribute, Buff);
 		ApplyBuff(Buff, OwnerUnit);
 	}
 }
@@ -150,6 +150,8 @@ void UCombatComponent::ActivateSkill_Buff(const FSkillData& SkillData, ABaseUnit
 		{
 			UI->GetUnitUIComponent()->OnChangeAP.Broadcast(Status->GetUnitStatusComponent()->GetUnitStatus().MaxAP, Status->GetUnitStatusComponent()->GetUnitStatus().AP, Status->GetUnitStatusComponent()->GetUnitStatus().AP / Status->GetUnitStatusComponent()->GetUnitStatus().MaxAP);
 		}
+
+		BuffMap.Add(SkillData.Buff.Attribute, SkillData.Buff);
 		ApplyBuff(SkillData.Buff, TargetUnit);
 
 		bUsedSkill = true;

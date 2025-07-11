@@ -47,5 +47,5 @@ private:
 	TMultiMap<ETurnBasedGameEffectAttribute, FBuffData>BuffMap;
 
 	void ApplyBuff(const FBuffData& Buff, ABaseUnit* TargetUnit);
-	float CalculateBufffiValue(const FBuffData& Buff);
+	float CalculateBufffiValue(ETurnBasedGameEffectAttribute Attribute);
 };

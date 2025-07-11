@@ -71,7 +71,7 @@ void UGameManagerSubsystem::ApplyBuffToTarget(bool IsPlayer, int index)
 	{
 		if (ABaseUnit* Target = UnitSet.PlayerUnits[index])
 		{
-			SkillUsedUnit->GetCombatComponent()->ActivateSkill_Buff(SavedData, Target);
+			Target->GetCombatComponent()->ActivateSkill_Buff(SavedData, Target);
 
 			if (IsValid(SavedData.SkillMontage)) 
 			{ 
@@ -86,7 +86,7 @@ void UGameManagerSubsystem::ApplyBuffToTarget(bool IsPlayer, int index)
 	{
 		if (ABaseUnit* Target = UnitSet.EnemyUnits[index])
 		{
-			SkillUsedUnit->GetCombatComponent()->ActivateSkill_Buff(SavedData, Target);
+			Target->GetCombatComponent()->ActivateSkill_Buff(SavedData, Target);
 
 			if (IsValid(SavedData.SkillMontage))
 			{
@@ -140,7 +140,7 @@ void UGameManagerSubsystem::AddUnit(EUnitTeamType TeamType, ABaseUnit* Unit, UTe
 {
 	UnitSet.AddUnit(TeamType, Unit);
 	if (TeamType == EUnitTeamType::Player) { PlayerUnitIcons.Add(UnitIcon); }
-	else if (TeamType == EUnitTeamType::Enemy) { EnemyUnitIcons.Add(UnitIcon); Debug::Print("Ho" + Unit->GetActorNameOrLabel()); }
+	else if (TeamType == EUnitTeamType::Enemy) { EnemyUnitIcons.Add(UnitIcon); }
 }
 
 void UGameManagerSubsystem::SetCurrentTurnMode(ETurnBasedGameTurnMode NewTurnMode)

@@ -98,6 +98,8 @@ void ABaseUnit::ActivateSkill(int SkillNum)
 {
 	FSkillData UsedSkill = GetCombatComponent()->GetSkill(SkillNum);
 
+	if (GetUnitStatusComponent()->GetUnitStatus().AP < UsedSkill.APCost) { return; }
+
 	UGameManagerSubsystem* GM = GetGameInstance()->GetSubsystem<UGameManagerSubsystem>();
 
 	switch (UsedSkill.SkillTarget)
@@ -106,13 +108,11 @@ void ABaseUnit::ActivateSkill(int SkillNum)
 		
 		if (UsedSkill.Type == ETurnBasedGameSkillType::Attack) { return; }
 
-		if (GetUnitStatusComponent()->GetUnitStatus().AP < UsedSkill.APCost) { return; }
-
 		if (IsValid(UsedSkill.SkillMontage)) { PlayAnimMontage(UsedSkill.SkillMontage); }
-		else { Debug::Print("AnimMontage Is Not Vaild"); }
 
 		GetCombatComponent()->ActivateSkill_Buff(UsedSkill, this);
 		break;
+
 	case ETurnBasedGameSkillTarget::SinglePlayerUnit:
 
 		if (UsedSkill.Type == ETurnBasedGameSkillType::Buff)

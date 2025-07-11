@@ -133,6 +133,13 @@ struct FBuffData
 
 	UPROPERTY(EditAnywhere, meta = (ClampMin = "1", ClampMax = "3", UIMin = "1", UIMax = "3"))
 	int32 Turn = 1;
+
+	bool operator==(const FBuffData& Other) const
+	{
+		return Attribute == Other.Attribute;
+	}
+	friend FORCEINLINE uint32 GetTypeHash(const FBuffData& Other) { return GetTypeHash(Other.Attribute); }
+
 };
 
 USTRUCT(BlueprintType)
